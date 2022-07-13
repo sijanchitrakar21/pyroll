@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<template id="report_payslip_all_document"> 
+			<style>
+				 .label0{float:left;width:130px; margin-left:14px;}
+                 .label1{float:left;width:180px; margin-left:14px;}
+				 .label2{float:left;width:90px; margin-left:14px;}
+				 *, div, td, th {font-size:11px;}
+				 .border1{border:1px solid blue;}
+				 .border2{border:2px solid red;}
+				 .borderless td, .borderless th {
+						border: none !important;
+					}
+             </style>
+			<div class="article" >
+			
+			<!--  <t t-set="payslip" t-value="payslips[0]" />  -->
+			<t t-foreach="payslips" t-as="payslip"> 
+			 <!-- t-call="dincelpayroll.dincel_external_layout" -->
+			<t>    
+			<div class="page">
+
+			<div class="row">
+					<div class="col-xs-4  text-left" >
+				   <img src='/web/static/src/img/dincel-logo.jpg' style="max-height: 35px;"/>
+				 
+				   </div>
+				   
+					<div class="col-xs-4 text-center" >
+						Postal Address: PO Box 104 <br />
+						St Clair, NSW 2759 <br />
+						A.B.N. 78 083 839 614
+					</div>
+				
+					<div class="col-xs-4  text-left">
+				   
+					<span> </span>
+				   </div>
+				  
+				 </div> 
+			 <!--  <div >
+				<div class="row">
+					<div class="col-xs-4  text-left" >
+				   <img src='/web/static/src/img/dincel-logo.jpg' style="max-height: 35px;"/>
+				 
+				   </div>
+				   
+					<div class="col-xs-4 text-center" >
+						Postal Address: PO Box 104 <br />
+						St Clair, NSW 2759 <br />
+						A.B.N. 78 083 839 614
+					</div>
+				
+					<div class="col-xs-4  text-left">
+				   
+					<span> </span>
+				   </div>
+				  
+				 </div> 
+				 
+				  <div  class="row">
+					<div class="label0  text-left">  
+					Payment Date:
+					</div>
+					<div class="col-xs-4  text-left"> <span t-esc="payslip['date']"/>  
+						</div>
+					<div class="col-xs-4  text-left"> </div>	
+				  </div>
+				  
+				    -->
+					<t t-set="summary" t-value="payslip['summary']"/>
+					<table class="table borderless">
+					<tr>
+						<td>Payment Date:</td>
+						<td colspan="3"> <span t-esc="payslip['date']"/></td>
+						</tr>
+						<tr>
+						<td valign="top">Pay Slip For:</td>
+						<td colspan="3"><span t-esc="payslip['employee']"/>	<br />
+					<span t-esc="payslip['address_line1']"/><br />
+					<span t-esc="payslip['address_line2']"/><br />
+					<span t-esc="payslip['address_line3']"/></td>
+						</tr>
+						
+						<tr>
+						<td>Annual Salary: </td>
+						<td colspan="3"> <span t-esc="payslip['salary']"/></td>
+						</tr>
+						
+						<tr>
+						<td>Pay Frequency: </td>
+						<td> <span t-esc="payslip['payfrequency']"/>  </td>
+						<td> Cheque No: </td>
+						<td> <span t-esc="payslip['chequeno']"/>  </td>
+						</tr>
+						
+						<tr>
+						<td>Pay Period From: </td>
+						<td> <t if="payslip['date_from']"><span t-esc="payslip['date_from']" t-field-options='{"format": "dd/MM/yyyy"}'/></t>  </td>
+						<td> GROSS PAY: </td>
+						<td> <span t-esc="summary['gross_payslip_amt']"/>  </td>
+						</tr>
+						
+						<tr>
+						<td>Pay Period Ending: </td>
+						<td> <t if="payslip['date_till']"><span t-esc="payslip['date_till']" t-field-options='{"format": "dd/MM/yyyy"}'/></t>  </td>
+						<td> NET PAY: </td>
+						<td> <span t-esc="summary['net_amt']" /> </td>
+						</tr>
+						
+						<tr>
+						<td>Employment Classification: </td>
+						<td colspan="3"> <span t-esc="payslip['job_position']"/></td>
+						</tr>
+						<tr>
+						<td>Superannuation Fund: </td>
+						<td colspan="3"> <span t-esc="payslip['super']"/></td>
+						</tr>
+					</table>
+					
+			 
+				<table class="table table-condensed" >
+					 <thead>
+					 
+							<tr class="text-center table_heading">
+								<th>DESCRIPTION</th>
+								<th class="text-center">HOURS</th>
+								<th class="text-center">CALC. RATE</th>
+								
+								<th class="text-center">AMOUNT</th>
+								<th class="text-center">YTD</th>
+								<th class="text-center">TYPE</th>
+							 </tr>
+						</thead>
+						<tbody>
+							
+						  <t t-foreach="payslip['lines']" t-as="line">
+							<tr> 
+								<td><span t-esc="line['name']" /></td> 
+								<td class="text-right"><span t-esc="line['net_hrs']"/></td>
+								<td class="text-right"><span t-esc="line['pay_rate']"/></td>
+								<td class="text-right"><span t-esc="line['sub_total']" /></td>
+								<td class="text-right"><span t-esc="line['ytd_total']" /></td>
+								<td class="text-center"><span t-esc="line['type']" /> </td>
+							</tr>
+						  </t>
+						  
+						  <tr> 
+								<td>PAYG Withholding</td>
+								<td class="text-right"> </td>
+								<td class="text-right"> </td>
+								<td class="text-right">-<span t-esc="summary['tax_amt']"/></td>
+								<td class="text-right">-<span t-esc="ytd_tax"/></td> 
+								<td class="text-center">Tax </td>
+							</tr>
+							
+						   <tr> 
+								<td>Holiday Lve</td>
+								<td class="text-right"><span t-esc="summary['annual_leave']"/></td>
+								<td class="text-right"> </td>
+								<td class="text-right"> </td>
+								<td class="text-right"><span t-esc="payslip['ytd_annual']"/></td>  
+								<td class="text-center">Entitlements </td>
+							</tr>
+							
+							<tr> 
+								<td>Personal Lve </td>
+								<td class="text-right"><span t-esc="summary['sick_leave']"/></td>
+								<td class="text-right"> </td>
+								<td class="text-right"> </td>
+								<td class="text-right"><span t-esc="payslip['ytd_sick']"/></td> 
+								<td class="text-center">Entitlements </td>
+							</tr>
+							
+							<tr> 
+								<td>SGC Superannuation </td>
+								<td class="text-right"> </td>
+								<td class="text-right"> </td>
+								<td class="text-right"><span t-esc="summary['super_amt']"/></td>
+								<td class="text-right"><span t-esc="payslip['ytd_super']"/></td>
+								<td class="text-center">Superannuation Expenses</td>
+							</tr>
+					   
+						</tbody>
+                </table>
+				
+			</div>
+			 
+			 </t>  
+			  <div style="page-break-after: always;"><span style="display: none;"> </span></div>  
+			 
+			</t>
+	 </div>
+</template>
+
+
+
+<template id="report_payslip_all">
+    <t t-call="dincelpayroll.dincelhtml_container"  >
+        <t t-foreach="docs" t-as="doc"  > 
+            <t t-call="dincelpayroll.report_payslip_all_document" />
+        </t>
+    </t>
+
+</template>
+ 
+ 
+</odoo>

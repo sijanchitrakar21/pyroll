@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="report_leavedetails_document"> 
+	<t t-call="web.external_layout"> 
+		
+			<div class="page">
+			<h3>
+				<span>Report  <span t-esc="report_title" /> </span>
+			</h3>
+			 
+			<h4>
+				Date: <t if="date_from"><span t-esc="date_from" t-field-options='{"format": "dd/MM/yyyy"}'/></t> - <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+			</h4>
+			
+			<table border="1" class="table table-condensed">
+				  <t t-foreach="emplines" t-as="empline">
+				  	
+					<t t-set="summary" t-value="empline['summary']"/>
+				  <tr class="table_heading"> 
+					<td><span t-esc="empline['name']" /> [<span t-esc="empline['number']" />]</td>
+					<td  class="text-center"><strong>BALANCE </strong></td>
+					<td class="text-right" colspan="2"><span t-esc="summary['annual_net']" /></td>
+					<td class="text-right" colspan="2"><span t-esc="summary['sick_net']" /></td>
+					<td class="text-right" colspan="2"><span t-esc="summary['parent_net']" /></td>
+					<td class="text-right" colspan="2"><span t-esc="summary['lsl_net']" /></td>
+					</tr>
+                        <tr class="text-center">
+							<th>Reference</th>
+							<th  class="text-center">Pay Date</th>
+							<th  class="text-center" colspan="2">Annual Leave</th>
+							<th  class="text-center" colspan="2">Sick Leave</th>
+							<th  class="text-center" colspan="2">Parental Leave</th>
+							<th  class="text-center" colspan="2">Long Service Leave</th>
+						 </tr>
+                    
+					<tr> 
+					<td> </td>
+					<td> </td>
+					
+					<td class="text-center">Accrued</td>
+					<td class="text-center">Taken</td>
+					
+					<td class="text-center">Accrued</td>
+					<td class="text-center">Taken</td>
+					
+					<td class="text-center">Accrued</td>
+					<td class="text-center">Taken</td>
+					
+					<td class="text-center">Accrued</td>
+					<td class="text-center">Taken</td>
+					</tr>
+                   
+					<t t-set="lines" t-value="empline['lines']"/>
+				  <t t-foreach="lines" t-as="line">
+					<tr> 
+					<td><span t-esc="line['name']" /></td>
+					<td class="text-center"><span t-esc="line['date']"/></td>
+					<td class="text-right"><span t-esc="line['leave_annual_a']" /></td>
+					<td class="text-right"><span t-esc="line['leave_annual_t']" /></td>
+					<td class="text-right"><span t-esc="line['leave_sick_a']" /></td>
+					<td class="text-right"><span t-esc="line['leave_sick_t']" /></td>
+					<td class="text-right"><span t-esc="line['leave_parent_a']" /></td>
+					<td class="text-right"><span t-esc="line['leave_parent_t']" /></td>
+					<td class="text-right"><span t-esc="line['leave_lsl_a']" /></td>
+					<td class="text-right"><span t-esc="line['leave_lsl_t']" /></td>
+					</tr>
+				  </t>
+				  
+				  
+			    </t>
+                </table>
+				
+			</div>
+		 </t>
+	 
+</template>
+
+
+<template id="report_leavedetails">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_leavedetails_document" />
+        </t>
+    </t>
+</template>
+ 
+ 
+</odoo>

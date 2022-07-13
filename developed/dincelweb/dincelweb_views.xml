@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+	<record model="ir.ui.view" id="dincelweb_member_staff_tree">
+            <field name="name">Staff Members</field>
+            <field name="model">dincelweb.member</field>
+            <field name="arch" type="xml">
+                <tree >
+					<field name="name" />
+					<field name="employee_id"  />
+					<field name="notes" />
+					<field name="username" />
+					<field name="active" />
+					
+                </tree>
+            </field>
+        </record>
+	
+	
+	 <record model="ir.ui.view" id="dincelweb_member_staff_form">
+            <field name="name">Staff Members Form</field>
+            <field name="model">dincelweb.member</field>
+            <field name="arch" type="xml">
+                <form create="false">
+				 <header>
+				   
+                </header>
+					 <sheet>
+					
+					 <group>
+						
+						  <group>
+							<field name="name" />
+							<field name="employee_id"  />
+							<field name="notes" />
+							<field name="username" />
+							<field name="active" />
+						 </group>
+						   
+						  </group>
+						  
+						     
+					  </sheet>
+                </form>
+            </field>
+        </record>
+		
+		
+</odoo>
+	

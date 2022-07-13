@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 
+	<!-- 
+	 <record model="ir.ui.view" id="dincelpayroll_config_tree">
+            <field name="name">Payslip config tree</field>
+            <field name="model">dincelpayroll.config</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+					<field name="name" />
+				
+                </tree>
+            </field>
+        </record>
+		
+		 <record model="ir.ui.view" id="dincelpayroll_config_form">
+            <field name="name">Payslip Config Form</field>
+            <field name="model">dincelpayroll.config</field>
+            <field name="arch" type="xml">
+                <form create="false">
+				 
+					 <sheet>
+					
+						<group>
+						
+							  <group>
+									 <field name="name" invisible="1" />
+									 <field name="payfrequency_id"  />
+									 <field name="timesheet_app"  />
+									 <field name="rounding_id"  />
+							 </group>
+						  </group>
+					 
+					
+					  </sheet>
+                </form>
+            </field>
+        </record>
+		
+		 
+	 
+	<record id="action_dincelpayroll_config" model="ir.actions.act_window">
+		<field name="name">Payroll Config</field>
+		<field name="res_model">dincelpayroll.config</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	
+	</record>
+	 
+		
+
+	
+			-->
+			
+			 <record model="ir.ui.view" id="dincelemployee_roster_form">
+            <field name="name">Employee roster form</field>
+            <field name="model">hr.employee.roster</field>
+            <field name="arch" type="xml">
+                <form >
+				 
+					 <sheet>
+					
+						<group>
+						
+							  <group>
+									<field name="name"  />
+					 
+									<field name="hrs_in" />
+									<field name="hrs_out" />
+									<field name="hh_mm_total" />
+									<field name="hrs_total" />
+									<field name="hrs_leave" />
+									
+							 </group>
+						  </group>
+					 <group>
+					<field name="item_ids" >
+						<tree editable="bottom" >
+							<field name="sequence" />
+							<field name="category_id" />
+							<field name="trigger_from" />
+							<field name="hours" sum="Total"/>
+							<field name="hour_type" />
+						</tree>
+					</field>
+					</group>
+					  </sheet>
+                </form>
+            </field>
+        </record>
+	
+
+	<record model="ir.ui.view" id="settings_public_holidays_form">
+            <field name="name">Public Holidays  Form</field>
+             <field name="model">dincelpayroll.holiday</field>
+            <field name="arch" type="xml">
+                <form >
+				 
+					 <sheet>
+					
+						<group>
+						
+							  <group>
+									
+									<field name="name" required="1"/>
+									<field name="date"  required="1"/>
+									<field name="state_id" invisible="1"/>
+									<field name="state_ids"  widget="many2many_tags"/>
+									<field name="holiday_status_id" required="1"/>
+									<field name="category_id" invisible="1"/>
+									<field name="notes"/>
+									<field name="fiscalyear_id"  />
+									<field name="current_year"/>
+							 </group>
+						  </group>
+					 
+					
+					  </sheet>
+                </form>
+            </field>
+        </record>
+		
+	<record model="ir.ui.view" id="dincelemployee_roster_tree">
+            <field name="name">Employee roster tree</field>
+            <field name="model">hr.employee.roster</field>
+            <field name="arch" type="xml">
+                <tree >
+					<field name="name" />
+					<field name="hrs_in" />
+					<field name="hrs_out" />
+					<field name="hh_mm_total" />
+					<field name="hrs_leave" />
+                </tree>
+            </field>
+        </record>	  
+	
+	<record model="ir.ui.view" id="settings_public_holidays_tree">
+            <field name="name">Public Holidays tree</field>
+            <field name="model">dincelpayroll.holiday</field>
+            <field name="arch" type="xml">
+                <tree decoration-muted="current_year == False">
+					<field name="name" />
+					<field name="date" />
+				
+					<field name="holiday_status_id" />
+					<field name="notes"/>
+					<field name="fiscalyear_id" invisible="1" />
+					<field name="current_year" invisible="1" />
+                </tree>
+            </field>
+        </record>	  
+		
+	<record id="action_dincelemployee_roster" model="ir.actions.act_window">
+		<field name="name">Employee Roster</field>
+		<field name="res_model">hr.employee.roster</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	
+	</record>
+	<record id="action_settings_public_holidays" model="ir.actions.act_window">
+		<field name="name">Public Holidays</field>
+		<field name="res_model">dincelpayroll.holiday</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="context">{'default_current_year': True,'search_default_current_year': 1}</field>
+	</record>
+	
+	
+	
+	<record id="action_dincelpayroll_account_settings" model="ir.actions.act_window">
+		<field name="name">Payroll Account Settings</field>
+		<field name="res_model">dincelaccount.settings</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	
+	</record>
+	
+	<record id="dincelaccount_settings_view_form_inherit" model="ir.ui.view">
+        <field name="name">dincelaccount.settings.form.inherit</field>
+        <field name="model">dincelaccount.settings</field>
+        <field name="inherit_id" ref="dincelaccount.payroll_account_config_view"/>
+        <field name="arch" type="xml">
+		 
+			<xpath expr="//page[1]" position="after">
+				<page string="General">
+					  <group colspan="2">
+						
+							<field name="payfrequency_id"  />
+							<field name="timesheet_app"  />
+							<field name="rounding_id"  />
+						 
+							<field name="api_publish"  />
+						  
+							<field name="odoo_tmp_folder" />
+							<field name="scan_ts_file" />
+					 </group>
+				 </page>	 
+			 </xpath>
+		 </field>
+	 </record>		
+</odoo>

@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="assets_backend" inherit_id="web.assets_backend"> 
+		 <xpath expr="." position="inside">
+			 <link rel="stylesheet" href="/dincelpayroll/static/src/css/style.css"/> 
+		 </xpath>        
+	</template>
+
+
+	<record id="dincelhr_employee_view_form" model="ir.ui.view">
+        <field name="name">dincelhr.employee.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+				<form string="Employee">
+                   
+						 
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <div id="o_employee_container"><div id="o_employee_main">
+                        <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;:&quot;image_medium&quot;}"/>
+						 <div class="oe_title"><h1><field name="x_display_name" class="oe_read_only" /></h1>
+						 
+						 </div>
+						  
+						<group>
+						  <group>
+							<label for="x_first_name" string="First Name" class="oe_edit_only" />
+							<field class="oe_edit_only" required="1" nolabel="1"  name="x_first_name" />
+							
+							<label for="x_mid_name" string="Middle Name" class="oe_edit_only" />
+							<field class="oe_edit_only" nolabel="1" name="x_mid_name" />
+							
+							<label for="x_last_name" required="1" string="Last Name" class="oe_edit_only" />
+							<field class="oe_edit_only" nolabel="1" name="x_last_name" />
+							
+							<field name="x_mobile" />
+							<field name="x_basis" />
+							<field name="x_date_start" />
+							
+							<field name="x_abn" />
+							
+							<field name="x_category" />
+							
+							<field name="x_emp_status" />
+							
+							<field name="x_email"  />
+							
+							<field name="x_tfn" />
+							
+							<field name="x_tfn_excode" />
+							
+							<field name="x_emp_type" />
+							<field name="x_group_id" required="1" />
+							<field name="x_payslip_create_type" />
+							
+							<field name="x_super_user"  />
+						 </group>
+						 
+						 <group>
+						 
+						    <field name="x_street" />
+							<field name="x_suburb" />
+							<field name="x_postcode" />
+							<field name="x_state_id" />
+							<field name="x_country_id" />
+						   
+						    <field name="x_date_stop" />
+
+							
+							<field name="x_current" invisible="1"/>
+							
+							<field name="x_prev_fname" />
+							<field name="x_prev_midname" />
+							<field name="x_prev_lname" />
+							<field name="x_other_name" />
+							<field name="x_recordid" />
+							<field name="x_emp_number"  attrs="{'readonly': [('x_super_user','=', False)]}" />
+						 </group>
+						 
+						 </group>    
+						 
+							<div class="oe_title" invisible="1">
+                            
+                                <field name="name" placeholder="Employee's Name" required="True"/>
+								 
+							</div>
+						
+                        <field name="category_ids" invisible="1" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="e.g. Part Time" groups="hr.group_hr_user"/>
+                        
+						<notebook>
+                            <page name="public" string="Work Information">
+                                <group>
+                                    <group string="Contact Information">
+                                        <field name="address_id" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True, &quot;highlight_first_line&quot;: True}"/>
+                                        <field name="work_location"/>
+                                        <field name="work_email" widget="email"/>
+                                        <field name="mobile_phone"/>
+                                        <field name="work_phone"/>
+                                    </group>
+                                    <group string="Position">
+                                        <field name="department_id"/>
+                                        <field name="job_id"/>
+                                        <field name="parent_id"/>
+                                        <field name="coach_id"/>
+                                        <field name="resource_calendar_id" invisible="1"/>
+                                    </group>
+                                </group>
+                              
+                            </page>
+							
+                            <page name="personal_information" string="Private Information"  groups="hr.group_hr_manager">
+                                <group>
+                                    <group string="Citizenship &amp; Other Information">
+                                        <field name="country_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                        <field name="identification_id" groups="hr.group_hr_user"/>
+                                        <field name="passport_id" groups="hr.group_hr_user"/>
+                                        <field name="bank_account_id" invisible="1" context="{'default_partner_id': address_home_id}"/>
+                                    </group>
+                                    <group string="Contact Information">
+                                        <field name="address_home_id" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True, &quot;highlight_first_line&quot;: True}"/>
+                                        <field name="is_address_home_a_company" invisible="1"/>
+                                        <div class="text-warning" attrs="{'invisible': [('is_address_home_a_company','=', False)]}">
+                                            Use here the home address of the employee.
+                                            This private address is used in the expense report reimbursement document.
+                                            It should be different from the work address.
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="gender"/>
+                                        <field name="marital"/>
+										<field name="birthday"/>
+                                    </group>
+                                    <group>
+                                       
+										<field name="x_kin_name" />
+										<field name="x_kin_phone" />
+					
+                                    </group>
+                                    <group string="Work Permit" name="work_permit">
+                                        <field name="visa_no"/>
+                                        <field name="permit_no"/>
+                                        <field name="visa_expire"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+							<page name="hr_settings" string="HR Settings" groups="hr.group_hr_manager">
+								 <group>
+								  <group>
+									<field name="x_tax_scale_id" />
+									
+									<field name="x_payfrequency_id" />
+									<field name="x_leave_rate"  invisible="1"/>
+									<field name="x_other_rate"  invisible="1"/>
+									<field name="x_pay_basis"  />
+									<field name="timesheet_cost"  attrs="{'invisible':[('x_pay_basis','=','S')]}" />
+									<field name="x_payperiod_hr" invisible="1"/>
+									<field name="x_work_days" invisible="1"/>
+									<field name="x_work_hrs" invisible="1"  />
+									<field name="x_daily_hrs" invisible="1" />
+									<field name="x_salary" invisible="1"  />
+									
+									 
+									</group>
+								 <group>
+									
+									
+									<field name="x_payslip_deli" />
+									<field name="x_email_pay" />
+									<field name="x_salary_rate" invisible="1"/>
+									<field name="x_lsl_leave" />
+									<field name="x_skip_ts_import" invisible="1"/>
+									<field name="x_payslip_enable" invisible="1"/>
+								 
+									
+								 </group>
+								 
+								 </group>
+								 
+								  <group string="Salary/Rate" >
+								   <group colspan="2">
+									<field name="x_rate_ids"  nolabel="1" >
+										<tree editable="bottom" open="false">
+											<field name="date_from" />
+											<field name="date_till" />
+											<field name="job_id" />
+											<field name="pay_basis" />
+											<field name="salary_rate" />
+											<field name="salary_annual" />
+											<field name="leave_rate" />
+											<field name="super_amount" />
+											<field name="comments" />
+											
+										</tree>
+									</field>
+								    </group>
+								 </group>
+								 <group>
+								 <group colspan="2" string="Entitlements" >
+									<field name="x_entitlement_ids"  nolabel="1" >
+										<tree editable="bottom">
+											<field name="sequence" widget="handle"/>
+											<field name="category" />
+											<field name="category_id" required="1"/>
+											<field name="description" required="1"/>
+											
+											<field name="amount" />
+											<field name="uom_code" />
+											<field name="amt_type" />
+											
+											<field name="cost_state_id" />
+											<field name="account_id" />
+										</tree>
+									</field>
+									</group>
+								 </group>
+								 
+								   <group invisible="1"> 
+								   <button name="button_import_leaves" type="object" string="Import Standard Leaves (Admin)" />
+								   <group colspan="2">
+								  
+								   <field name="x_leave_ids"  nolabel="1" >
+										<tree editable="bottom"  open="false">
+											
+											<field name="holiday_status_id" />
+											<field name="type" invisible="1"/>
+											<field name="entitlement" />
+											<field name="uom_code" />
+											<field name="pay_basis" />
+										 
+											
+										</tree>
+								   </field>
+								    </group>
+								 </group>
+								 
+								  <group invisible="1">
+								   <button invisible="1" name="button_import_attendance" type="object" string="Import From Group" />
+								   <group colspan="2" >
+								   <field name="x_attendance_ids"  nolabel="1" >
+										<tree editable="bottom">
+											
+											<field name="dayofweek"/>
+											<field name="name" options='{"fg_color": "grey:is_weekend==True;"}'/>
+											<field name="category_id"/>
+											
+											<field name="hour_from" />
+											<field name="hour_to" />
+											<field name="normal_pay" sum="Normal"/>
+											<field name="meal_unpaid" sum="Unpaid"/>
+											<field name="paid_meal" sum="Paid" />
+											<field name="paid_t15" sum="OT1.5"/>
+											<field name="paid_t20" sum="OT2.0"/>
+											<field name="sub_total" sum="Subtotal" />
+											
+											<field name="is_weekend" invisible="1"/>
+										</tree>
+								   </field>
+								    </group>
+								 </group>
+								 
+								    <group invisible="1">
+									   <group colspan="2" >
+									   <field name="x_workhrs_ids"  nolabel="1" >
+											<tree editable="bottom">
+												<field name="category_id" />
+												<field name="description" />
+												<field name="mon_hrs" sum="MON"/>
+												<field name="tue_hrs" sum="THU"/>
+												<field name="wed_hrs" sum="WED"/>
+												<field name="thu_hrs" sum="THU"/>
+												<field name="fri_hrs" sum="FRI"/>
+												<field name="sat_hrs" sum="SAT"/>
+												<field name="sun_hrs" sum="SUN" />
+												<field name="sub_total" sum="Subtotal" />
+												
+											</tree>
+									   </field>
+										</group>
+								 </group>
+								 
+								   <group>
+								   <group>
+										<field name="x_general_exmpt" />
+										<field name="x_au_resident" />
+										<field name="x_leave_loading" />
+										<field name="x_help_debt" />
+									</group>
+									<group>
+										<field name="x_sfss_debt" />
+										<field name="x_medicare_vary" />
+										<field name="x_senior_offset" />
+										<field name="x_zone_special" />
+									</group>
+							   </group>
+                                <group>
+                                    <group string="Status" name="active_group">
+                                        <field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="user_id" string="Related User"/>
+                                    </group>
+                                    <group>
+                                        <field name="notes" placeholder="Other Information ..." colspan="4"/>
+                                    </group>
+                                </group>
+                            </page>
+							
+							<page  string="Entitlements/Allowances/Deductions" groups="hr.group_hr_manager" invisible="1">
+								<button name="button_import_entitlements" type="object" string="Import From Employee Group" />
+								
+							</page>
+							
+							<page string="Payment Settings" groups="hr.group_hr_manager">
+								<group>
+									<field name="x_pay_text" />
+								</group>
+								
+								<group string="Bank Details" >
+								
+									<field name="x_bank_ids" nolabel="1" >
+										<tree>
+											<field name="sequence" />
+											<field name="name" />
+											<field name="bank_name" />
+											<field name="bsb" />
+											<field name="account_number" />
+											<field name="type" />
+											<field name="part_type" />
+											
+											<field name="part_salary_amt" />
+											<field name="active" />
+										</tree>
+										<form>
+											<group>
+												<field name="sequence" />
+												<field name="name" />
+												<field name="bank_name" />
+												<field name="bsb" />
+												<field name="account_number" />
+												 
+												<field name="type" />
+												
+												<field name="part_type" />
+												<field name="part_salary_amt" />
+												<field name="active" />
+											</group>
+										</form>
+									</field>
+									
+								 </group>
+								 
+								<group string="Superfund Details" >
+									<field name="x_super_ids" nolabel="1">
+										<tree>
+											<field name="super_fund_id" />
+											<field name="name" />
+											<field name="usi" />
+											<field name="abn" />
+											<field name="memberno" />
+											<field name="employer_membership" />
+											<field name="phone" />
+											
+											<field name="website" />
+											<field name="active" />
+										</tree>
+										<form>
+											<group>
+												<field name="super_fund_id" />
+												<field name="name" />
+												<field name="usi" />
+												<field name="abn" />
+												<field name="memberno" />
+												<field name="employer_membership" />
+												<field name="phone" />
+												
+												<field name="website" />
+												<field name="active" />
+											</group>
+										</form>
+									</field>
+									</group>
+							   </page>
+							   
+							<page string="Payslips" groups="hr.group_hr_manager" >
+									<field name="slip_ids" nolabel="1">
+								   </field>
+							   
+							 </page>
+							 <page string="Accounting">
+								 <group>
+									<group>
+										<field name="x_expense_id" />
+										<field name="x_super_id" />
+									 
+										 </group>
+										 <group>
+								
+										<field name="x_coststate_id" invisible="1"/>
+										<field name="x_costcentre_id" />
+										 </group>
+								  </group>
+							 </page>
+							 
+                        </notebook>
+						
+                        </div>
+						
+						</div>
+                    
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+			</field>	
+		</record>
+		
+	<record id="hr_employee_inherit_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.hr</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+			 <field name="name" position="replace"> 
+					<field name="name" invisible="1" />
+			 </field>
+			<field name="category_ids" position="after"> 
+				 <group>
+				  <group>
+					<field name="x_first_name" />
+					<field name="x_mid_name" />
+					<field name="x_last_name" />
+					<field name="x_mobile" />
+					<field name="x_date_start" />
+					<field name="x_basis" />
+					<field name="x_abn" />
+					
+					<field name="x_category" />
+					<field name="x_emp_status" />
+					
+					<field name="x_email"  />
+					
+					<field name="x_tfn" />
+					
+				 </group>
+				 
+				 <group>
+				   <field name="x_street" />
+					<field name="x_suburb" />
+					<field name="x_postcode" />
+					<field name="x_state_id" />
+					<field name="x_country_id" />
+				   
+				   
+				    <field name="x_kin_name" />
+					<field name="x_kin_phone" />
+					
+					
+					<field name="x_expense_id" />
+					<field name="x_super_id" />
+					
+				 </group>
+				 
+				 </group>
+			</field>
+			<page name="hr_settings" position="inside"> 
+			 <group>
+				  <group>
+					<field name="x_tax_scale_id" />
+					<field name="x_group_id" required="1" widget="selection" domain="[('name','!=','ALL')]"/>
+					<field name="x_salary"   />
+					<field name="x_payperiod_hr" />
+					<field name="x_payfrequency_id" />
+					</group>
+				 <group>
+					<field name="x_leave_rate" />
+					<field name="x_other_rate" />
+					<field name="x_pay_basis" />
+					<field name="x_payslip_deli" />
+					<field name="x_email_pay" />
+				 </group>
+				 </group>
+			</page>
+			
+			  <page name="hr_settings" position="after" >
+			  
+			   <page  string="Payroll Settings" groups="hr.group_hr_user">
+			   <group>
+				   <group>
+						<field name="x_general_exmpt" />
+						<field name="x_au_resident" />
+						<field name="x_leave_loading" />
+						<field name="x_help_debt" />
+					</group>
+					<group>
+						<field name="x_sfss_debt" />
+						<field name="x_medicare_vary" />
+						<field name="x_senior_offset" />
+						<field name="x_zone_special" />
+					</group>
+			   </group>
+			   
+			    <group string="Bank Details" >
+				<field name="x_bank_ids" >
+					<tree >
+					
+					<field name="sequence" />
+					<field name="name" />
+					<field name="bank_name" />
+					<field name="bsb" />
+					<field name="account_number" />
+					<field name="type" />
+					<field name="part_type" />
+					
+					<field name="part_salary_amt" />
+					<field name="active" />
+					</tree>
+					<form>
+					<group>
+					<field name="sequence" />
+					<field name="name" />
+					<field name="bank_name" />
+					<field name="bsb" />
+					<field name="account_number" />
+					 
+					<field name="type" />
+					
+					<field name="part_type" />
+					<field name="part_salary_amt" />
+					<field name="active" />
+					</group>
+					</form>
+				</field>
+				 </group>
+				  <group string="Superfund Details" >
+					<field name="x_super_ids" >
+						<tree>
+							<field name="name" />
+							
+							<field name="usi" />
+							<field name="abn" />
+							<field name="employer_membership" />
+							<field name="phone" />
+							
+							<field name="website" />
+							<field name="active" />
+						</tree>
+						<form>
+							<group>
+								<field name="name" />
+								
+								<field name="usi" />
+								<field name="abn" />
+								<field name="employer_membership" />
+								<field name="phone" />
+								
+								<field name="website" />
+								<field name="active" />
+							</group>
+						</form>
+					</field>
+					</group>
+			   </page>
+			   
+			  </page>
+			  
+		 </field> 
+		 
+    </record>
+	
+	<record id="dincelpayroll_employee_group_form_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.employee.group.form</field>
+        <field name="model">hr.employee.group</field>
+        <field name="arch" type="xml">
+            <form string="Employee Group">
+                
+                <sheet>
+                    
+                    <group>
+                        <group>
+							<field name="name"  required="1"/>
+							<field name="code"/>
+							
+							<field name="leave_hrs" help="For leave accurals"/>
+							<field name="normal_hrs" help="For leave accurals"/>
+							<field name="daily_net_hrs" help="For leave accurals"/>
+							
+							<field name="week_work_days"/>
+							
+							<field name="payfrequency_id"/>
+							<field name="payperiod_hrs"/>
+							<field name="is_time_half_pay" />
+							<field name="is_break_pay" />
+							<field name="next_day_out" />
+							<field name="hrs_in" />
+							<field name="hrs_out" />
+							
+							<field name="tot_paid_hr" invisible="1"/>
+							<field name="notes" />
+                        </group>
+						
+						 <group>
+								<field name="category_id" required="1"/>
+								<field name="nopay_id" />	
+
+								<field name="is_timesheet"/>
+								<field name="factor_hr_rate"/>
+								<field name="factor_super_rate" invisible="1"/>
+								<field name="factor_annual_salary" invisible="1"/>
+								<field name="factor_annual_type" invisible="1"/>
+								<field name="early_in" />
+								<field name="late_in" />
+								<field name="early_out" />
+								<field name="late_out" />
+								
+								
+								<field name="annual_leave" invisible="1"/>
+								<field name="sick_leave" invisible="1"/>
+								<field name="leave_loading" invisible="1"/>
+								
+								<field name="hrs_variance" /> 
+								
+								<div name="button_box">
+								<button type="object" class="oe_stat_button" icon="fa-user" name="action_view_employees" attrs="{'invisible': [('name', '=', 'ALL')]}">
+									<div class="o_form_field o_stat_info">
+										<span class="o_stat_value">
+											<field name="employee_count" />
+										</span>
+										<span class="o_stat_text"> Employees </span>
+									</div>
+								</button>
+								<br /><br />
+								<button type="object" name="action_init_salary_super"  string="Reset Annaul Salary/Rates/Super"/>
+								
+								</div>
+								<field name="active" /> 
+						 </group>
+                    </group>
+                     <group>
+					   <field name="leave_ids"  nolabel="1" colspan="2"  domain="[('holiday_status_id', '!=', None)]">
+								<tree editable="bottom"  open="false">
+									
+									<field name="holiday_status_id" />
+									
+									<field name="quantity" />
+									<field name="uom_code" />
+									<field name="pay_basis" />
+								 
+									
+								</tree>
+						   </field>
+						   
+					 <field name="attendance_ids" nolabel="1" colspan="2">
+							<tree editable="bottom" >
+								<field name="dayofweek" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="name"   options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="category_id" required="1" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="hrs_in" />
+								<field name="hrs_out" />
+								<field name="hrs_total" />
+								<field name="roster_id" />
+								<field name="work_type" />
+								<field name="hour_from" invisible="1" />
+								<field name="hour_to" invisible="1" />
+								<field name="normal_pay" sum="Normal"/>
+								<field name="meal_unpaid" sum="Unpaid"/>
+								<field name="paid_meal" sum="Paid" />
+								<field name="paid_t15" sum="OT1.5"/>
+								<field name="paid_t20" invisible="1" sum="OT2.0"/>
+								<field name="sub_total" sum="Subtotal" />
+								<field name="is_weekend" invisible="1"/>
+							</tree>
+						 </field>
+					  </group>
+					   <group string="Special Pays" >
+						<field name="specialpay_ids" nolabel="1" >
+							<tree editable="bottom">
+								<field name="type"/>
+								<field name="category_id"/>
+								<field name="parent_id" attrs="{'required': [('type', '=', 'loading')]}"/>
+							 </tree>
+						 </field>
+					  </group>
+					   <group string="Skip time calculation" >
+						<field  name="skiphr_ids" nolabel="1" >
+							<tree editable="bottom"  >
+								 
+								<field name="name" />
+								<field name="category_id" domain="[('is_summary', '=', False)]"/>
+								 
+								
+								
+							</tree>
+						 </field>
+					  </group>
+					  
+					  
+					   <group string="Payslip Summary" invisible="1">
+						<field  name="summary_ids" nolabel="1" >
+							<tree editable="bottom"  >
+								<field name="sequence" widget="handle" />
+								<field name="name" invisible="1"/>
+								<field name="category_id" domain="[('is_summary', '=', False)]"/>
+								<field name="account_id" />
+								
+								
+							</tree>
+						 </field>
+					  </group>
+					  
+					   <group string="Entitlements/Allowances/Deductions" >
+						<field name="category_ids" nolabel="1" >
+							<tree>
+								<field name="category"/>
+								<field name="name"/>
+								<field name="subtype" invisible="1"/>
+								<field name="pc_amt" invisible="1"/>
+							 </tree>
+						 </field>
+					  </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+	
+    <record id="dincel_payroll_scale_form_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.scale.form</field>
+        <field name="model">dincelpayroll.scale</field>
+        <field name="arch" type="xml">
+            <form string="Scale">
+                
+                <sheet>
+                    
+                    <group>
+                        <group>
+							<field name="name" />
+							<field name="scale"  invisible="1"/>
+							<field name="tax_scale_id" /> 
+							<field name="date_start"/>
+							<field name="date_end"/>
+							<field name="fiscal_id" />
+		 
+                        </group>
+                       
+						 <group>
+							<field name="super_pc"/>
+							<field name="state"/>
+							
+						</group>
+                    </group>
+                     <group  colspan="2" invisible="1">
+					 <div>
+					  <field colspan="2" name="tax_line_ids"  nolabel="1" >
+						 <tree editable="bottom" >
+								<field name="amount_from"/>
+								<field name="amount_to"/>
+								
+								<field name="tax_rate" />
+							
+								<field name="offset_value" />
+								<field name="notes" />
+						 </tree>
+						 </field>
+						 
+						 </div>
+						 </group>
+						 <group  colspan="2">
+						 <div>
+					 <field colspan="2" name="scale_line_ids" nolabel="1" >
+						 <tree editable="bottom" >
+								<field name="amount_from"/>
+								<field name="amount_to"/>
+								
+								<field name="coefficient_a" />
+							
+								<field name="coefficient_b" />
+								<field name="resident_type" />
+						 </tree>
+						 </field>	 </div>
+					  </group>
+					  <group>
+					  <field name="notes"  colspan="2"/>
+					  </group>
+                </sheet>
+                
+            </form>
+        </field>
+    </record>
+	
+	<record id="dincelpayroll_scale_filter" model="ir.ui.view">
+		<field name="name">Scale Search</field>
+		<field name="model">dincelpayroll.scale</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" string="Title"/>
+				<field name="tax_scale_id" />
+				 
+				<field name="state"/>
+				 
+			
+				<filter   string="Open" name="open" domain="[('state','=','open')]" help="Open Scales" />
+				
+				<filter   string="Closed" name="closed" domain="[('state','=','close')]" help="Closed Scales" />
+				
+				<separator/>
+				
+				 
+			  
+				<group expand="0" string="Group By">
+					<filter string="state"   domain="[]" help="State" context="{'group_by':'state'}" />
+					 
+			 
+				</group>
+			</search>
+		</field>
+	</record>
+	 
+	
+	<record id="dincel_payroll_employee_group_tree_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.employee.group.tree</field>
+        <field name="model">hr.employee.group</field>
+        <field name="arch" type="xml">
+            <tree >
+               <field name="name" />
+			   <field name="daily_net_hrs" />
+			   <field name="week_work_days"/>
+			   <field name="payfrequency_id"/>
+				<field name="payperiod_hrs"/>
+				
+            </tree>
+        </field>
+    </record>
+	
+	
+	<record id="dincel_payroll_scale_tree_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.scale.tree</field>
+        <field name="model">dincelpayroll.scale</field>
+        <field name="arch" type="xml">
+            <tree >
+               <field name="scale" invisible="1" />
+			   <field name="tax_scale_id" />
+			   <field name="date_start"/>
+				<field name="date_end"/>
+				<field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+	<record id="dincel_payroll_timesheet_batch_tree_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.timesheet.batch.tree</field>
+        <field name="model">hr.timesheet.batch</field>
+        <field name="arch" type="xml">
+            <tree >
+               <field name="employee_id"/>
+			   <field name="name" />
+			   <field name="date" />
+			   <field name="date_start"/>
+				<field name="date_end"/>
+				 
+				<field name="state"/>
+            </tree>
+        </field>
+    </record>
+	
+	<record id="hr_employee_view_employee_filter_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.filter.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+			<field name="name" position="after"> 
+				<field name="x_emp_number"/>
+				<field name="x_group_id"/>
+			</field>
+			<filter name="group_manager" position="before">
+				<filter name="group_id" string="Employee Group" domain="[]" context="{'group_by':'x_group_id'}"/>
+			</filter>
+		 </field>
+	 </record>
+	 
+	 <record id="hr_employee_view_employee_kanban_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.kanban.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+			<field name="job_id" position="after"> 
+				<span>[<field name="x_emp_number"  />] <field name="x_group_id"  /></span>
+			</field>
+		 
+		 </field>
+	 </record>
+	 
+	 <record id="hr_employee_view_employee_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.tree.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+			<field name="name" position="replace"> 
+				<field name="x_first_name"  />
+				<field name="x_last_name"  />
+				<field name="x_group_id"  />
+				<field name="x_payslip_create_type" />
+				<field name="x_emp_number"  />
+			</field>
+		 
+		 </field>
+	 </record>
+	 
+	<record id="dincelpayroll_fiscalyear_inherit_form" model="ir.ui.view">
+        <field name="name">dincelpayroll.fiscalyear.form.inherit</field>
+        <field name="model">account.fiscalyear</field>
+        <field name="inherit_id" ref="account_fiscalyear.view_account_fiscalyear_form"/>
+        <field name="arch" type="xml">
+				<field name="date_stop" position="after"> 
+					<field name="x_super" />
+					<field name="x_weeks" />
+					<field name="x_fortnights" />
+				</field>
+				<field name="period_ids" position="after"> 
+					<div>Holidays</div>
+					<field  colspan="4" name="x_holiday_ids">
+						<tree editable="bottom">
+							<field name="fiscalyear_id" invisible="1"/>
+							<field name="name" required="1"/>
+							<field name="date"  required="1"/>
+							<field name="state_id" invisible="1"/>
+							<field name="state_ids"  widget="many2many_tags"/>
+							<field name="holiday_status_id" required="1"/>
+							<field name="category_id" invisible="1"/>
+							<field name="notes"/>
+						</tree>
+					</field>
+					<div>Extra withholding amount, 27 fortnight or 53 week pays</div>
+					<field  colspan="4" name="x_extra_tax_ids">
+						<tree editable="bottom">
+							<field name="fiscalyear_id" invisible="1"/>
+							<field name="name" required="1"/>
+							<field name="payfrequency_id"  required="1"/>
+							<field name="amount_from" required="1"/>
+							<field name="amount_to" required="1"/>
+							<field name="amount_tax" required="1"/>
+						</tree>
+					</field>
+				</field>
+		</field>
+	</record>
+	
+	<record id="action_dincelpayroll_hrjob" model="ir.actions.act_window">
+		<field name="name">Job Position</field>
+		<field name="res_model">hr.job</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>	
+	
+</odoo>		

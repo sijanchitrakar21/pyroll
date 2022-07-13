@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ 		   
+		   
+	<record id="action_dincelpayroll_print" model="ir.actions.act_window">
+		<field name="name">Payslips Print</field>
+		<field name="res_model">hr.payslip.queue</field>
+		 
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_type':'print'}</field>
+	
+	</record>
+		   
+		   
+	<record id="action_dincelpayroll_email" model="ir.actions.act_window">
+		<field name="name">Payslips Email</field>
+		<field name="res_model">hr.payslip.queue</field>
+		 
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_type':'email'}</field>
+	
+	</record>
+	
+		   
+	  <!-- timesheets -->
+		<menuitem id="dincelmenu_timesheets"
+			name="Timesheets" sequence="1"
+		   />
+	   
+	   
+	   <menuitem id="dincelmenu_timesheets_sub"
+		name="Timesheets"
+		parent="dincelmenu_timesheets"
+		  
+	   />
+  
+	    <menuitem id="menu_dincelpayroll_copy1_timesheet"
+		name="Active Timesheets"
+		parent="dincelmenu_timesheets_sub"
+		 action="action_dincelpayroll_copy1_timesheet"
+		 sequence="1"
+	   />
+	   
+	<menuitem id="menu_dincelpayroll_copy_import_timesheet"
+		name="New Timesheet Import "
+		parent="dincelmenu_timesheets_sub"
+		 action="action_dincelpayroll_copy_import_timesheet"
+		 sequence="2"
+	   />
+	  
+	   <menuitem id="mymenu_timesheet_copy_done_timesheet"
+		name="Converted Timesheets"
+		parent="dincelmenu_timesheets_sub"
+		 action="action_dincelpayroll_done_copy_timesheet"
+		sequence="2"
+	   />
+	   
+	   
+	  
+	   
+	    <menuitem id="menu_dincelpayroll_log_record"
+		name="Error Logs"
+		parent="dincelmenu_timesheets_sub"
+		 action="action_dincelpayroll_log_record"
+		 sequence="3"
+	   />
+	   
+	   
+	   
+	   <!-- timesheets ends -->
+	   
+	   <menuitem id="dincelmenu_timesheets_history"
+			name="Historical data"  
+			parent="dincelmenu_timesheets"
+		   />
+		   
+	     <menuitem id="menu_timesheets_history_all_timesheet"
+		name="All Timesheets"
+		parent="dincelmenu_timesheets_history"
+		 action="action_dincelpayroll_all_copy_timesheet"
+		 sequence="2"
+	   />
+	   
+	   
+	<menuitem id="menu_dincelpayroll_payroll"
+		name="Payrun"
+		parent="hr_payroll.menu_hr_payroll_root"
+		
+	   />
+ 
+	<menuitem id="menu_dincelpayroll_currpayslip_payrun"
+		name="Current Payslips"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_currpayslip_employee"
+		  sequence="1"
+	   />
+		
+	 
+	   
+	 <menuitem id="menu_dincelpayroll_autopay_payrun"
+		name="Autopay/Office Staffs"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_auto_payrun"
+		  sequence="2"
+	   />
+	   
+	   
+	   <menuitem id="menu_dincelpayroll_timesheet_payrun"
+		name="Factory Staffs"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_timesheet_payrun"
+		  sequence="3"
+	   />
+	   
+	   
+	   
+	   <menuitem id="menu_dincelpayroll_casual_payrun"
+		name="Casual Staffs"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_casual_payrun"
+		  sequence="4"
+	   />
+	  <menuitem id="menu_dincelpayroll_ts_confirm_payrun"
+		name="Approved Timesheets"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_confirm_copy_timesheet"
+		  sequence="1"
+	   />
+	   
+	 <menuitem id="menu_dincelpayroll_ts_payrun"
+		name="All Timesheets"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_all_copy_timesheet"
+		  sequence="5"
+	   />
+	    <menuitem id="menu_dincelpayroll_ts_import_payrun"
+		name="Import Timesheets"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_copy_import_timesheet"
+		  sequence="6"
+	   />
+	   
+	   <!--    Timesheets        -->
+	
+  	<menuitem id="dincelmenu_payslips"
+		name="Payslips"
+	   />
+	   
+	   <menuitem id="dincelmenu_payslips_sub"
+		name="Payslips"
+		parent="dincelmenu_payslips"
+		  
+	   />
+	 
+	   <menuitem id="menu_dincelpayroll_currpayslip_employee"
+		
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_currpayslip_employee"
+		  
+	   /> 
+	    <menuitem id="menu_dincelpayroll_currpayslip_ts_employee"
+		
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_currpayslip_ts_employee"
+		 sequence="7"
+	   /> 
+	   
+	    
+	   <menuitem id="menu_dincelpayroll_allpayslip_employee"
+		name="All Payslips"
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_allpayslip_employee"
+		 sequence="8"
+	   /> 
+	   
+	   
+	   <menuitem id="menu_dincelpayroll_emailque_payslips"
+		name="Payslips Email Queue"
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_emailque_payslips"
+		  sequence="9"
+	   /> 
+	   
+	 
+	  <menuitem id="menu_dincelpayroll_print"
+		name="Payslips Print"
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_print"
+		 sequence="10"
+	   />
+	<menuitem id="menu_dincelpayroll_email"
+			name="Payslips Email"
+			parent="dincelmenu_payslips_sub"
+			 action="action_dincelpayroll_email"
+			 sequence="10"
+		   />	   
+	   
+	  <menuitem id="menu_dincelpayroll_aba"
+		name="Payslips ABA"
+		parent="dincelmenu_payslips_sub"
+		 action="action_dincelpayroll_aba"
+		 sequence="10"
+	   />
+	   <!-- payslips ends -->
+	 
+	   <!-- reports -->
+	   	<menuitem id="dincelmenu_reports"
+		name="Reports"  sequence="60"
+	   />
+	   
+	   <menuitem id="menu_dincelpayroll_reports"
+		name="Reports"
+		parent="dincelmenu_reports"
+		  
+	   />
+ 
+	  <!--
+	  <menuitem id="menu_dincelpayroll_payslip_batch"
+		name="Payslip Batch"
+		parent="menu_dincelpayroll_payroll"
+		 action="action_dincelpayroll_payslip_batch"
+	   />  -->
+	   
+	   <menuitem id="menu_dincelpayroll_report_employee"
+		name="Employees"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+		      
+	 <menuitem id="menu_dincelpayroll_report_super"
+		name="Superannuation"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+	   
+	   <menuitem id="menu_dincelpayroll_report_payroll"
+		name="Payrun"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+		      
+	 <menuitem id="menu_dincelpayroll_report_entitlements"
+		name="Entitlements"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+	    <menuitem id="menu_dincelpayroll_report_yearend"
+		name="Year End"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+		      
+	 <menuitem id="menu_dincelpayroll_report_journals"
+		name="Journals"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+	   
+	   <menuitem id="menu_dincelpayroll_report_tax"
+		name="Tax"
+		parent="menu_dincelpayroll_reports"
+		 
+	   /> 
+	   
+   <!-- reports ends -->
+   
+   
+    
+   <!-- Pay end process-->
+   	<menuitem id="dincelmenu_pay_end"
+		name="Payend Process"  sequence="60"
+	   />
+	   
+	     	<menuitem id="dincelmenu_payend_sub"
+		name="Payend Process"   
+		parent="dincelmenu_pay_end"
+		
+	   />
+	   
+   <menuitem id="dincelmenu_payend_validate_journal"
+	name="Validate Journals"
+	parent="dincelmenu_payend_sub"
+	action="action_dincelpayroll_currpayslip_employee"
+   />
+   
+    <menuitem id="dincelmenu_payend_single_touch"
+	name="Single Touch"
+	parent="dincelmenu_payend_sub"
+	action="action_dincelpayroll_currpayslip_employee"
+   />
+   
+    <!-- Termination Pay ends -->
+   <menuitem id="dincelmenu_pay_termination"
+		name="Termination Pay"  sequence="60"
+	   />
+	   
+	<menuitem id="dincelmenu_pay_termination_sub"
+		name="Termination Pay"   
+		parent="dincelmenu_pay_termination"
+		
+	   />
+	  
+	  <menuitem id="dincelmenu_pay_termination_all"
+		name="All Termination Pay"   
+		parent="dincelmenu_pay_termination_sub"
+		action="action_dincelpayroll_termination_all"
+	   />
+	   
+	   <menuitem id="dincelmenu_pay_termination_new"
+		name="New Termination Pay"   
+		parent="dincelmenu_pay_termination_sub"
+		action="action_dincelpayroll_termination_employee"
+	   />
+	   
+	 
+	   
+	   
+   <!-- admin setups -->
+   	<menuitem id="dincelmenu_setups"
+		name="Admin Setups"  sequence="60"
+	   />
+	   
+   <menuitem id="dincelmenu_setups_sub"
+	name="Admin Setups"
+	parent="dincelmenu_setups"
+	  
+   />
+   
+   <menuitem id="menu_dincelpayroll_scalesettings"
+		name="Tax Scale Settings"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_scalesettings"
+	   />
+	
+	<menuitem id="menu_dincelpayroll_groupsettings"
+		name="Employee Group Settings"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_groupsettings"
+	   />
+	<!--   
+	<menuitem id="menu_dincelpayroll_paycategory"
+		name="Pay Category All"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_paycategory"
+	   /> -->
+	   
+	 <menuitem id="menu_dincelpayroll_paycategory_item"
+		name="Payslip Line Item"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_paycategory_item"
+	   />
+	   
+	<menuitem id="menu_dincelpayroll_paycategory_summary"
+		name="Payslip Category / Summary"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_paycategory_summary"
+	   />
+	   
+	 <menuitem id="menu_dincelpayroll_hrjob"
+		name="Job Position Settings"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_hrjob"
+	   />
+	   
+	<menuitem id="menu_dincelemployee_roster"
+		name="Employee Roster"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelemployee_roster"
+	   />
+	   
+	   <menuitem id="menu_dincelpayroll_account_settings"
+		name="Payroll Account Settings"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_account_settings"
+	   />  
+	   
+	   <menuitem id="menu_settings_public_holidays"
+		name="Public Holidays"
+		parent="dincelmenu_setups_sub"
+		 action="action_settings_public_holidays"
+	   />
+	   
+	  <!--  
+	<menuitem id="menu_dincelpayroll_config"
+		name="Payroll Configs"
+		parent="dincelmenu_setups_sub"
+		 action="action_dincelpayroll_config"
+	   /> -->
+	   <!-- admin setups ends -->
+	   
+</odoo>

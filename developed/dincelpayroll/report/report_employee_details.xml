@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="report_employee_details_document"> 
+	 
+			<div class="article" >
+			<style>
+				 .label0{float:left;width:130px; margin-left:14px;}
+                 .label1{float:left;width:180px; margin-left:14px;}
+				 .label2{float:left;width:90px; margin-left:14px;}
+				 *, div, td, th {font-size:11px;}
+             </style>
+			 
+			 
+			   
+			<div  class="page">
+
+			 
+				<div class="row">
+					<div class="col-xs-4  text-left" >
+				   <img src='/web/static/src/img/dincel-logo.jpg' style="max-height: 35px;"/>
+				 
+				   </div>
+				   
+					<div class="col-xs-4 text-center" >
+						Postal Address: PO Box 104 <br />
+						St Clair, NSW 2759 <br />
+						A.B.N. 78 083 839 614
+					</div>
+				
+					<div class="col-xs-4  text-left">
+				   
+					<span> </span>
+				   </div>
+				 </div>
+				  
+				  
+				  
+			 
+				 <br />
+				  
+				  
+				
+				   
+				<table class="table table-condensed" style="border:none !important;">
+					 <thead>
+					 
+							<tr class="text-center table_heading">
+								<th>Name</th>
+								<th>Number</th>
+								<th>Group</th>
+								<th>Job Position</th>
+								<th class="text-center">Pay Basis</th>
+								<th class="text-center">Leave Rate</th>
+								<th class="text-center">Other Rate</th>
+								<th class="text-center">Base Rate</th>
+								<th class="text-center">Annual Salary</th>
+								<th class="text-center">Terminate Date</th>
+							 </tr>
+						</thead>
+						<tbody>
+								
+						  <t t-foreach="lines" t-as="line">
+							<tr> 
+								<td><span t-esc="line['name']" /></td> 
+								<td><span t-esc="line['number']" /></td> 
+								<td><span t-esc="line['grpname']" /></td> 
+								<td><span t-esc="line['jobname']" /></td> 
+								<td class="text-center"><span t-esc="line['pay_basis']" /></td> 
+								<td class="text-right"><span t-esc="line['leave_rate']" /></td> 
+								<td class="text-right"><span t-esc="line['rate_base']" /></td> 
+								<td class="text-right"><span t-esc="line['salary_annual']" /></td> 
+								<td class="text-right"><span t-esc="line['date_stop']" /></td> 
+							</tr>
+						  </t>
+						  
+						  
+					   
+						</tbody>
+                </table>
+				
+			</div>
+			
+			 
+	 </div>
+		 
+</template>
+
+
+<template id="report_employee_details">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_employee_details_document" />
+        </t>
+    </t>
+</template>
+ 
+ 
+</odoo>

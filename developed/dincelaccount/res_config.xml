@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+	
+			<record	 id="payroll_account_config_view" model="ir.ui.view" >
+			<field name="name">dincelaccount.config.form.view</field>
+			<field name="view_type">form</field>
+			<field name="model">dincelaccount.settings</field>
+			<field name="arch" type="xml">
+				<form create="false" >
+					<sheet>
+				
+						<group > 
+							<group> 
+							<field name="name"  readonly="1"/>					  
+							</group>
+					</group>
+							  <notebook>
+								<page string="General">
+									<group colspan="2" >
+										 <field name="payroll_clearing_code"/> 
+										 <field name="payroll_liability_id"/> 
+										 <field name="wage_expense_id"/> 
+										 <field name="super_liability_id"/> 
+										 <field name="super_expense_id"/> 
+										 <field name="tax_account_id"/> 
+										 <field name="leave_personal_id"/> 
+										 <field name="leave_annual_id"/> 
+										 <field name="pay_bank_id" />
+										 <field name="pay_descr" />
+										 
+										 <field name="odoo_tmp_folder" />
+										 <field name="scan_ts_file" />
+										 
+									</group>
+									</page>
+										<page string="LSL Rules">
+									 <group colspan="2" >
+										<field name="lsl_rule_ids"    >
+											<tree string="LSL Rules" editable="bottom" >
+											
+												<field name="state_id" />
+												<field name="min_years" />
+											</tree>
+											</field>
+										</group>	
+								</page>
+							</notebook>
+                       
+						
+						  
+                     </sheet>      
+					 
+					  
+				</form>
+			</field>
+		</record>
+		 
+		 
+        <record model="ir.ui.view" id="payroll_account_config_tree">
+            <field name="name">Payroll Account Settings</field>
+            <field name="model">dincelaccount.settings</field>
+            <field name="arch" type="xml">
+                <tree string="Payroll Account Settings" create="false" >
+                   
+                    <field name="name" string="Payroll Account Settings"/> 
+                </tree>
+            </field>
+        </record>
+		
+		 
+		
+        <record id="action_payroll_account_config"  model="ir.actions.act_window">
+            <field name="name">Payroll Account Settings</field>
+            <field name="res_model">dincelaccount.settings</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+        </record>
+<!--
+		<record model="ir.actions.act_window.view" id="action_payroll_accountconfig_tree">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			
+			<field name="act_window_id" ref="action_payroll_accountconfig"/>
+		</record>
+		
+		<record model="ir.actions.act_window.view" id="action_payroll_accountconfig_form">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			
+			<field name="act_window_id" ref="action_payroll_accountconfig"/>
+		</record>
+		 -->
+				  
+        <menuitem id="menu_dincelaccount_payroll_settings"
+                  name="Payroll Account Settings"
+                 parent="hr_payroll.menu_hr_payroll_configuration"
+                  action="action_payroll_account_config" />
+			
+		 
+				  		
+    </data>
+</odoo>

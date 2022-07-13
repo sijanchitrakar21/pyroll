@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+	<menuitem id="dincelmenu_mymenu"
+		name="My Menu"
+	   />
+	   
+   <menuitem id="dincelmenu_mymenu_sub"
+	name="My Menu"
+	parent="dincelmenu_mymenu"
+	  
+   />
+   
+   <menuitem id="dincelmenu_leave_request"
+		 
+		parent="dincelmenu_mymenu_sub"
+		 action="action_myleave_request"
+		
+	   />
+	   
+	   <menuitem id="dincelmenu_leave_management"
+		name="Leave Management" 
+		parent="hr_holidays.menu_hr_holidays_root"
+		
+	   />
+	   
+	    <menuitem id="dincelmenu_leave_request_open"
+		parent="dincelmenu_leave_management"
+		 action="action_leave_request_open"
+		  sequence="1"
+	   />
+	   
+	   <menuitem id="dincelmenu_leave_request_all"
+		parent="dincelmenu_leave_management"
+		 action="action_leave_request_all"
+		 sequence="2"
+	   />
+	   
+	   
+	   
+</odoo>

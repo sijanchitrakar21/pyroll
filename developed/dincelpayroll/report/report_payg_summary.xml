@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+	
+<template id="report_payg_summary_document"> 
+	
+			<div class="article" >
+			<div class="page">
+			 <style>
+				 .label0{float:left;width:130px; margin-left:14px;}
+                 .label1{float:left;width:180px; margin-left:14px;}
+				 .label2{float:left;width:90px; margin-left:14px;}
+             </style>
+
+			 
+				<div class="row">
+					 
+				   
+					<div class="col-xs-12 text-center" >
+						PAYG payment summary - invividual non-business <br />
+						Payment summary for the year ending  <br />
+					
+					</div>
+				
+					 
+				 </div>
+				  
+				  <div class="row">
+				  <div class="col-xs-6 text-left" >
+					Payee Details
+				  </div>
+				<div class="col-xs-6 text-left" >
+				NOTICE TO PAYEE <br />
+				 If this payment summary shows an amount in total tax withheld box, you must lodge a tax return. If no tax was withheld, you may still lodge a tax return.<br />
+				 <br />
+				 For more information on whether you have to lodge, or about this payment and how it is taxed, you can:<br />
+				 visit ato.gov.au <br />
+				 phone 13 28 61 between 8.00am and 6.00 pm, Monday to Friday<br />
+				</div>
+					 
+				 </div>
+				  <div class="row">
+				   <div class="col-xs-3 text-left" >Period of payment </div>
+				   <div class="col-xs-3 text-left" > Day/Month/Year</div>
+				    <div class="col-xs-3 text-left" >to Day/Month/Year </div>
+				   </div>
+				   
+				   <div class="row">
+				    <div class="col-xs-6 text-left" >Payee's tax file number </div>
+					<div class="col-xs-6 text-left" >TOTAL TAX WITHHELD $ </div>
+				   </div>
+				   
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >Gross Payments </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >Type </div>
+					   <div class="col-xs-3 text-left" >A $ </div>
+					    <div class="col-xs-1 text-left" >Type </div>
+				   </div>
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >CDEP Payments </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >Type </div>
+					   <div class="col-xs-3 text-left" >B $ </div>
+					    <div class="col-xs-1 text-left" >Type </div>
+				   </div>
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >Reportable Employer Superannuation Contributions </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >Type </div>
+					   <div class="col-xs-3 text-left" >D $ </div>
+					    <div class="col-xs-1 text-left" >Type </div>
+				   </div>
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >Reportable fringe benefits amount<br />FBT year 1 April to March </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >Type </div>
+					   <div class="col-xs-3 text-left" >E $ </div>
+					    <div class="col-xs-1 text-left" >Type </div>
+				   </div>
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >Is the employer exempt from FBT under section 57A of the FBTAA 1986? </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >  </div>
+					   <div class="col-xs-3 text-left" >  </div>
+					    <div class="col-xs-1 text-left" >  </div>
+				   </div>
+				   <div class="row">
+				    <div class="col-xs-4 text-left" >Total Allowances </div>
+					 <div class="col-xs-3 text-left" > </div>
+					  <div class="col-xs-1 text-left" >  </div>
+					   <div class="col-xs-4 text-left" >Total allowances are not included in Gross payments above. This amount needs to be shown seperately in your tax return.  </div>
+					   
+				   </div>
+			</div>
+		
+	 </div>
+</template>
+
+
+
+<template id="report_payg_summary">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_payg_summary_document" />
+        </t>
+    </t>
+</template>
+ 
+ 
+</odoo>

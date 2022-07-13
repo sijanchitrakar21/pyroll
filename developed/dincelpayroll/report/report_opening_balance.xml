@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_opening_balance_document"> 
+	<t t-call="web.external_layout"> 
+		<div class="page">
+			<h3>
+				<span>Report <span t-esc="report_title" /></span>
+			</h3>
+			 
+			<h4>
+				Date: <t if="date_from"><span t-esc="date_from" t-field-options='{"format": "dd/MM/yyyy"}'/></t> - <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+			</h4>
+			
+			<table border="1" class="table table-condensed">
+				 <thead>
+				 
+                        <tr class="text-center">
+							<th class="text-center">ID</th>
+							<th class="text-center">Employee Name</th>
+							<th class="text-center">Employee No</th>
+							<th class="text-center">Gross YTD</th>
+							<th class="text-center">Net YTD</th>
+							<th class="text-center">PAYG YTD</th>
+							<th class="text-center">Super YTD</th>
+							<th class="text-center">Sick Leave</th>
+							<th class="text-center">Annual Leave</th>
+							<th class="text-center">Long Service Leave</th>
+							<th class="text-center">Total</th>
+							<t t-foreach="sub_headers" t-as="line">
+								<th><span class="text-center" t-esc="line['name']" /></th> 
+							</t>
+						 </tr>
+                    </thead>
+                    <tbody>
+					
+					  <t t-foreach="lines" t-as="line">
+							<tr> 
+								<td><span t-esc="line['id']" /></td> 
+								<td><span t-esc="line['name']" /></td> 
+								<td><span t-esc="line['number']" /></td> 
+								<td class="text-right"><span t-esc="line['gross_ytd']"/></td>
+								<td class="text-right"><span t-esc="line['net_ytd']"/></td>
+								<td class="text-right"><span t-esc="line['payg_ytd']" /></td>
+								<td class="text-right"><span t-esc="line['super_ytd']" /></td>
+								<td class="text-right"><span t-esc="line['sick_leave']" /> </td>
+								<td class="text-right"><span t-esc="line['annual_leave']" /> </td>
+								<td class="text-right"><span t-esc="line['lsl_leave']" /> </td>
+								<td class="text-right"><span t-esc="line['total']" /> </td>
+								
+								<t t-foreach="line['items']" t-as="item">
+									<td><span class="text-center" t-esc="item['qty']" /></td> 
+								</t>
+								
+							</tr>
+						  </t>
+					  
+				  
+					</tbody>
+					
+                </table>
+				
+			</div>
+		 </t>
+	 
+</template>
+ 
+<template id="report_opening_balance">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_opening_balance_document" />
+        </t>
+    </t>
+</template>
+ 
+</odoo>

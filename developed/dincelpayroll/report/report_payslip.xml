@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+	
+<template id="report_pagepayslip_document"> 
+	
+			<div class="article" >
+			<div class="page">
+			 <style>
+				 .label0{float:left;width:130px; margin-left:14px;}
+                 .label1{float:left;width:180px; margin-left:14px;}
+				 .label2{float:left;width:90px; margin-left:14px;}
+				 *, div, td, th {font-size:11px;}
+             </style>
+
+			 <div  >
+				<div class="row">
+					<div class="col-xs-4  text-left" >
+				   <img src='/web/static/src/img/dincel-logo.jpg' style="max-height: 35px;"/>
+				 
+				   </div>
+				   
+					<div class="col-xs-4 text-center" >
+						Postal Address: PO Box 104 <br />
+						St Clair, NSW 2759 <br />
+						A.B.N. 78 083 839 614
+					</div>
+				
+					<div class="col-xs-4  text-left">
+				   
+					<span> </span>
+				   </div>
+				 </div>
+				  
+				  <div  class="row">
+					<div class="label0  text-left">  
+					Payment Date:
+					</div>
+					<div class="col-xs-4  text-left"> <span t-esc="date"/>  
+						</div>
+					<div class="col-xs-4  text-left"> </div>	
+				  </div>
+				  
+				  <div  class="row">
+				   <div class="label0 text-left" >
+					<span>Pay Slip For: </span>
+				   </div>
+				    <div class="col-xs-4 text-left"><span t-esc="employee"/>	<br />
+					<span t-esc="address_line1"/><br />
+					<span t-esc="address_line2"/><br />
+					<span t-esc="address_line3"/><br />
+					</div>
+					<div class="col-xs-4  text-left">
+				   
+						<span> </span>
+					   </div>
+				  </div>
+				  
+			 
+				 <br />
+				  
+				  <div  class="row">
+					<div class="label1  text-left">  
+					Annual Salary:
+					</div>
+					<div class="col-xs-4  text-left"> <span t-esc="salary"/>  
+						</div>
+					<div class="col-xs-4  text-left"> </div>	
+				  </div>
+				  
+				  <div  class="row">
+					<div class="label1  text-left">  
+					Pay Frequency:
+					</div>
+					<div class="col-xs-4  text-left"> <span t-esc="payfrequency"/>   
+						</div>
+					<div class="label2  text-left"> Cheque No: </div>	
+					<div class="col-xs-2  text-left"><span t-esc="chequeno"/>   </div>	
+				  </div>
+				  <div  class="row">
+					<div class="label1  text-left">  
+					<span>Pay Period From: </span>
+					</div>
+					<div class="col-xs-4  text-left">  <t if="date_from"><span t-esc="date_from" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+						</div>
+					<div class="label2  text-left"> GROSS PAY: </div>	
+					<div class="col-xs-2  text-left"><span t-esc="summary['gross_payslip_amt']"/>  </div>	
+				  </div>
+				  <div  class="row">
+					<div class="label1  text-left">  
+					<span>Pay Period Ending: </span>
+					</div>
+					<div class="col-xs-4  text-left">  <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+						</div>
+					<div class="label2  text-left"> NET PAY: </div>	
+					<div class="col-xs-2  text-left"><span t-esc="summary['net_amt']" />  </div>		
+				  </div>
+				  <div  class="row">
+					<div class="label1 text-left" >  
+					<span>Employment Classification:  </span>
+					</div>
+					<div class="col-xs-8  text-left">  <span t-esc="job_position"/>
+						</div>
+					<div> </div>	
+				  </div>
+				  <div  class="row">
+					<div class="label1 text-left">  
+					Superannuation Fund:
+					</div>
+					<div class="col-xs-4  text-left"><span t-esc="super"/></div> 
+					<div class="col-xs-4  text-left"> </div>
+				  </div>
+				  
+			 
+				  
+				 </div> 
+			 
+			<table   class="table table-condensed" style="border:none !important;">
+				 <thead>
+				 
+                        <tr class="text-center table_heading">
+							<th>DESCRIPTION</th>
+							<th class="text-center">HOURS</th>
+							<th class="text-center">CALC. RATE</th>
+							
+							<th class="text-center">AMOUNT</th>
+							<th class="text-center">YTD</th>
+							<th class="text-center">TYPE</th>
+						 </tr>
+                    </thead>
+                    <tbody>
+					
+				   <t t-foreach="lines" t-as="line">
+					<tr> 
+					<td><span t-esc="line['name']" /></td>
+					<td class="text-right"><span t-esc="line['tot_hrs']"/></td>
+					<td class="text-right"><span t-esc="line['pay_rate']"/></td>
+					<td class="text-right"><span t-esc="line['sub_total']" /></td>
+					<td class="text-right"><span t-esc="line['ytd_total']" /></td>
+					<td class="text-center"><span t-esc="line['type']" /> </td>
+					</tr>
+				  </t>
+				  <tr> 
+					<td>PAYG Withholding</td>
+					<td class="text-right"> </td>
+					<td class="text-right"> </td>
+					<td class="text-right">-<span t-esc="summary['tax_amt']"/></td>
+					<td class="text-right">-<span t-esc="ytd_tax"/></td> 
+					<td class="text-center">Tax </td>
+					</tr>
+				  <tr> 
+					<td>Holiday Lve</td>
+					<td class="text-right"><span t-esc="summary['annual_leave']"/></td>
+					<td class="text-right"> </td>
+					<td class="text-right"> </td>
+					<td class="text-right"><span t-esc="ytd_annual"/></td>  
+					<td class="text-center">Entitlements </td>
+					</tr>
+					
+					<tr> 
+					<td>Personal Lve </td>
+					<td class="text-right"><span t-esc="summary['sick_leave']"/></td>
+					<td class="text-right"> </td>
+					<td class="text-right"> </td>
+					<td class="text-right"><span t-esc="ytd_sick"/></td> 
+					<td class="text-center">Entitlements </td>
+					</tr>
+						<tr> 
+					<td>SGC Superannuation </td>
+					<td class="text-right"> </td>
+					<td class="text-right"> </td>
+					<td class="text-right"><span t-esc="summary['super_amt']"/></td>
+					<td class="text-right"><span t-esc="ytd_super"/></td>
+					<td class="text-center">Superannuation Expenses</td>
+					</tr>
+				   
+			   </tbody>
+                </table>
+				
+			</div>
+		
+	 </div>
+</template>
+
+
+
+<template id="report_pagepayslip">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_pagepayslip_document" />
+        </t>
+    </t>
+</template>
+ 
+ 
+</odoo>

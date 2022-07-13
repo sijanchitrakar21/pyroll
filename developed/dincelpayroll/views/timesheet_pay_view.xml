@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--
+	<record model="ir.ui.view" id="dincelpayroll_timesheet_pay_hr_form">
+		<field name="name">Timesheet Copy Pay Hr Form</field>
+		<field name="model">hr.timesheet.import.copy</field>
+		<field eval="160" name="sequence"/>
+		<field name="arch" type="xml">
+			<form create="false">
+			 <header>
+			<button name="button_leave_balance" string="Preview Leave Balance"   type="object" /> 
+			<button name="button_date_range"  string="Timesheet Reset"   type="object" />
+				<button name="button_update_rounding"   string="Update Rounding &amp; Hours"   type="object" />
+					<button name="button_update_paidhrs"   string="Update Paid Hours"  type="object" />
+			 <button name="button_date_inout_fix" string="Date In/Out"  invisible="1"   type="object" />
+			 <button name="button_draft_timesheet" string="Mark as Draft"  states="confirm"  confirm="Are you sure to mark as Draft?"  groups="hr.timesheet_confirm_user"  type="object" />
+			 <button name="button_confirm_timesheet" string="Approve"  states="draft" confirm="Are you sure to Approve?"  groups="hr.timesheet_confirm_user" type="object" />
+			   <field name="state" widget="statusbar" />
+			</header>
+				 					 
+				
+				 <group>
+					
+					  <group>
+						<field name="name" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date_from" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date_to" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="x_emp_number" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="employee_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="x_group_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						
+						<field name="user_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="hours_variance" readonly="1"/>
+						<field name="authorise_variance" invisible="1" groups="hr_payroll.group_hr_payroll_manager" attrs="{'invisible': [('hours_variance','=',False)]}"/>
+						<field name="total_hrs" invisible="1"/>
+						<field name="offset_hrs" invisible="1"/>
+						<field name="payslip_ref" readonly="1" />
+						<field name="auto_calc_lock" invisible="1" groups="hr_payroll.group_hr_payroll_manager"/>
+						<br /> 
+						
+						<br />
+						<br />
+					
+					
+						<br />
+						<br />
+						
+						<span colspan="2" attrs="{'invisible': [('hours_variance','=',False)]}">
+						<span colspan="2" style="color:red; border:1px solid red; padding:10px;" attrs="{'invisible': [('authorise_variance','=',True)]}">Unbalanced Hours Found!</span></span>
+					 </group>
+					  <group string="Summary">
+						<field name="summary_ids" nolabel="1"   open="false" context="{'default_employee_id': employee_id}"> 
+								 <tree open="false" editable="bottom" >
+									<field name="employee_id" invisible="1" />
+									<field name="name" invisible="1" readonly="1"/>
+									
+									<field name="category_id" readonly="1"/>
+									<field name="hrs" />
+									<field name="factor_type" />
+									<field name="xfactor"/>
+									<field name="hrs_net" sum="Total" readonly="1"/>
+								   
+									
+								</tree>
+								 </field>
+					 </group>
+					  </group>
+					  
+						<notebook>
+						
+							<page string="Days">
+							  <group colspan="2">
+							  
+								<field name="day_ids" nolabel="1"  open="false" context="{'default_employee_id': employee_id}" attrs="{'readonly': [('state','not in',['draft'])]}"> 
+								 <tree editable="bottom" >
+									 
+									<field name="employee_id" invisible="1" />
+									<field name="name" readonly="1"/>
+									<field name="date" readonly="1"/>
+									<field name="daydtls_ids" invisible="1" options='{"fg_color":"red:is_miss_hours==True;"}'/>
+									
+									 
+									<field name="paid_from" options='{"bg_color":"cyan;"}' />
+									<field name="paid_to" string="Till" options='{"bg_color":"cyan;"}'/>
+									<field name="hrs_paid" invisible="1"/>
+									<field name="hrs_paid_read" string="Hrs" readonly="1" sum="Tot Paid" />
+									<field name="leave_id" />
+									<field name="leave_hrs" sum="Total Leave Hrs"/>
+									<field name="hrs_unpaid" sum="Tot Unpaid"   /> 
+									<field name="roster_from"  readonly="1"/>
+									<field name="roster_to" string="Till" readonly="1"/>
+									<field name="hrs_roster" invisible="1"/>
+									
+									<field name="actual_from" readonly="1" options='{"bg_color":"lightgrey;"}'/>
+									<field name="actual_to" string="Till" readonly="1" options='{"bg_color":"lightgrey;"}'/>
+									
+									
+									
+									
+									<field name="hrs_breaks_paid" readonly="1" sum="Br Paid"  />
+									<field name="hrs_breaks_unpaid" readonly="1" sum="Br Unpaid" />
+									
+									<field name="hrs_tot_paid" sum="SubTot Paid" invisible="1"/>
+									<field name="hrs_tot_unpaid" sum="SubTot Unpaid" invisible="1"/>
+									
+									<field name="hrs_total" readonly="1" sum="Total" options='{"fg_color":"red:is_miss_hours==True;"}'/>
+									<field name="msg_code" readonly="1"/>
+									<field name="is_miss_hours" readonly="1" />
+								</tree>
+								
+								<form>
+								
+									<group>
+										<group>
+									 
+											<field name="name" readonly="1"/>
+											<field name="date"  readonly="1"/>
+											
+											<field name="paid_from" invisible="1" />
+											<field name="paid_to" invisible="1"/>
+											<field name="roster_from" readonly="1"/>
+											<field name="roster_to" readonly="1"/>
+										</group>
+										<group>
+											<field name="actual_from" invisible="1"/>
+											<field name="actual_to" invisible="1"/>
+											<field name="breaks" invisible="1"/>
+										 
+											<field name="hrs_total"  />
+											 
+										</group>
+									</group>
+									
+									<group>
+										<div colspan="2">In/Out  </div>
+										<field name="daydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+										 <tree open="false" editable="bottom" >
+											<field name="sequence" widget="handle"/>
+											<field name="date" />
+											<field name="in_out" />
+											<field name="time" readonly="1" />
+											
+											<field name="time_adjust" />
+											
+											<field name="category_id" invisible="1" />
+										 </tree>
+										 </field>
+										<div colspan="2">Pay Details</div>
+										<field name="paydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+										 <tree open="false" editable="bottom" context="{'default_employee_id': employee_id}">
+											<field name="employee_id" invisible="1" /> 
+											<field name="sequence" widget="handle"/>
+											<field name="category_id" />
+											<field name="holiday_id" domain="[('employee_id','=',employee_id),('x_redeem','in',['part','none'])]"  context="{'default_employee_id': employee_id}"/>
+											<field name="hours" sum="Total"/>
+										 </tree>
+										 </field>
+									</group>
+								</form>				
+								 </field>
+								 
+						 
+							 
+							 </group>
+							 </page>
+							 
+							 
+						<page string="Timesheets" invisible="1">
+							  <group colspan="2">
+							  
+								<field name="line_ids" nolabel="1"  open="false" context="{'default_employee_id': employee_id}"> 
+								 <tree open="false" editable="bottom" >
+									<field name="sequence" widget='handle'/>
+									<field name="employee_id" invisible="1" />
+									<field name="name" />
+									<field name="date" />
+									<field name="category_id" />
+									<field name="hrs"/>
+									<field name="factor_type" />
+									<field name="xfactor"/>
+									<field name="hrs_net" sum="Total" invisible="1" />
+								   
+									<field name="locked" invisible="1"/>
+								</tree>
+								 </field>
+								 
+						 
+							 
+							 </group>
+							 </page>
+							 <page string="Leaves">
+								  <group colspan="2">
+								  
+									<field name="leave_ids" nolabel="1" open="false"  context="{'default_employee_id': employee_id}"> 
+										<tree >
+											<field name="category_id"   />
+											<field name="holiday_status_id"  invisible="1" />
+											<field name="holiday_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+											<field name="employee_id" invisible="1" />
+											<field name="date_from"  />
+											<field name="date_to"  />
+											
+											<field name="date" invisible="1" />
+											
+											<field name="tot_hrs" sum="Tot Hours" />
+										</tree>
+										<form >
+											<group>
+												<group>
+													<field name="holiday_id" required="1" domain="[('employee_id','=',parent.employee_id),('x_date_from','&lt;=',parent.date_to),('x_date_from','&gt;=',parent.date_from)]"  context="{'default_employee_id': parent.employee_id}"/>
+													<field name="employee_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+													<field name="date_from"/>
+													<field name="date_to"  />
+													
+													<field name="date" invisible="1"/>
+													
+												</group>
+												<group>
+												
+													<field name="category_id"  invisible="1"  />
+													<field name="tot_hrs" invisible="1"/>
+													
+												 
+												</group>
+											</group>
+											<group>
+												<field name="leave_days"> 
+													<tree editable="bottom" >
+														<field name="date" invisible="1"   />
+														<field name="name"   />
+														<field name="is_leave" />
+														<field name="hours" sum="Total Hours"  />
+													</tree>	
+												</field>
+											</group>
+										</form>
+									 </field>
+									 
+							 
+								 
+								 </group>
+								 </page>
+						</notebook>
+						
+						
+				 
+				  
+				   <div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers"/>
+							
+							<field name="message_ids" widget="mail_thread"/>
+						</div>
+			</form>
+		</field>
+	</record>
+	-->
+</odoo>
+	

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+		<record id="action_account_moves_all_adcs" model="ir.actions.act_window">
+         
+            <field name="name">Journal Items</field>
+            <field name="res_model">account.move.line</field>
+            
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Select the period and the journal you want to fill.
+              </p><p>
+                This view can be used by accountants in order to quickly record
+                entries in Odoo. If you want to record a supplier invoice,
+                start by recording the line of the expense account. Odoo
+                will propose to you automatically the Tax related to this
+                account and the counterpart "Account Payable".
+              </p>
+            </field>
+        </record>
+        
+		 <record id="action_move_journal_line_dcs" model="ir.actions.act_window">
+            <field name="name">Journal Entries</field>
+            <field name="res_model">account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a journal entry.
+              </p><p>
+                A journal entry consists of several journal items, each of
+                which is either a debit or a credit transaction.
+              </p><p>
+                Odoo automatically creates one journal entry per accounting
+                document: invoice, refund, supplier payment, bank statements,
+                etc. So, you should record journal entries manually only/mainly
+                for miscellaneous operations.
+              </p>
+            </field>
+        </record>
+		
+		
+		<menuitem id="dincelaccount_menu" name="Accounting" sequence="1"/>
+		<menuitem id="dincelaccount_menu_sub" name="Accounting"  parent="dincelaccount_menu"/>
+		
+			<!-- Accounting -->		
+		
+		<menuitem id="dincelaccount_ac_journal_menu" 
+					name="Journal Entries" 
+					parent="dincelaccount_menu_sub" 
+					sequence="3" 
+					/>	
+					
+		<menuitem id="dincelaccount_ac_moves_all"	
+				name="Journal Items" 
+				action="action_account_moves_all_adcs"
+				parent="dincelaccount_ac_journal_menu"
+			/>
+		
+		<menuitem id="dincelaccount_ac_moves_journal_line"
+				name="Journal Entries" 
+				action="action_move_journal_line_dcs"
+               parent="dincelaccount_ac_journal_menu"
+			/>
+</odoo>
+		

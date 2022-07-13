@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="action_dincelpayroll_report_report" model="ir.actions.act_window">
+		<field name="name">Payroll Reports</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_actsummary" model="ir.actions.act_window">
+		<field name="name">Activity Summary</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'actsummary'}</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_actdetails" model="ir.actions.act_window">
+		<field name="name">Activity Details</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'actdetails'}</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_empdetails" model="ir.actions.act_window">
+		<field name="name">Employment Details</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'empdetails'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payadvice" model="ir.actions.act_window">
+		<field name="name">Payroll advice</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payadvice'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_emptimesheet" model="ir.actions.act_window">
+		<field name="name">Timesheets</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'emptimesheet'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_pendingtimesheet" model="ir.actions.act_window">
+		<field name="name">Unprossessed Timesheets</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'pendingtimesheet'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_stdpaydtl" model="ir.actions.act_window">
+		<field name="name">Standard Pay Details</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'stdpaydtl'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_accurals" model="ir.actions.act_window">
+		<field name="name">Accruals</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'accurals'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_super_summary" model="ir.actions.act_window">
+		<field name="name">Super Summary</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'super_summary'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_forecastaccurals" model="ir.actions.act_window">
+		<field name="name">Forcast Accruals</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'forecastaccurals'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_entitlesumm" model="ir.actions.act_window">
+		<field name="name">Entitlement Summary</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'entitlesumm','default_individual': True}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_entitledetails" model="ir.actions.act_window">
+		<field name="name">Entitlement Details</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'entitledetails','default_individual': True}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_opening_balance" model="ir.actions.act_window">
+		<field name="name">Opening Balances</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'opening_balance','default_individual': False}</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_payrolltax" model="ir.actions.act_window">
+		<field name="name">Payroll Tax Report</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payrolltax'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payrolltaxpay" model="ir.actions.act_window">
+		<field name="name">Payroll Tax Payment</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payrolltaxpay'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_paygtax" model="ir.actions.act_window">
+		<field name="name">PAYG Witholding Tax</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'paygtax'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_yearend" model="ir.actions.act_window">
+		<field name="name">Payment Summary Report</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'yearend'}</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_atomedia" model="ir.actions.act_window">
+		<field name="name">ATO EMPDUPE Media File</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'atomedia'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_atopreview" model="ir.actions.act_window">
+		<field name="name">Preview EMPDUPE Media File</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'atopreview'}</field>
+	</record>
+
+	
+	<record id="action_dincelpayroll_report_costing" model="ir.actions.act_window">
+		<field name="name">Costing Reports</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'costing'}</field>
+	</record>
+	
+
+	<record id="action_dincelpayroll_report_paysummary" model="ir.actions.act_window">
+		<field name="name">Payroll Summary</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'paysummary'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payregister" model="ir.actions.act_window">
+		<field name="name">Payroll Register Summary</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payregistersummary'}</field>
+	</record>
+	
+	
+	
+	<record id="action_dincelpayroll_report_payentry" model="ir.actions.act_window">
+		<field name="name">Payroll Entries</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payentry'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payallowance" model="ir.actions.act_window">
+		<field name="name">Allowances</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payallowance'}</field>
+	</record>
+	
+	
+	<record id="action_dincelpayroll_report_paydeduction" model="ir.actions.act_window">
+		<field name="name">Deductions</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'paydeduction'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payterminate" model="ir.actions.act_window">
+		<field name="name">Termination Pay Details</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payterminate'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_salsacrifice" model="ir.actions.act_window">
+		<field name="name">Salary Sacrifice</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'salsacrifice'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_hrsworked" model="ir.actions.act_window">
+		<field name="name">Hours Worked</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'hrsworked'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_annidates" model="ir.actions.act_window">
+		<field name="name">Employee Annivesary dates</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'annidates'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_payrunjurn" model="ir.actions.act_window">
+		<field name="name">Payrun Journals</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'payrunjurn'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_leaveliabjurn" model="ir.actions.act_window">
+		<field name="name">Leave liablity Journals</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'leaveliabjurn'}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_report_taxjurn" model="ir.actions.act_window">
+		<field name="name">Payroll Tax Journals</field>
+		<field name="res_model">hr.payroll.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_reportcode': 'taxjurn'}</field>
+	</record>
+	
+	<!-- MENU ITEMS  -->
+	<!-- EMPLOYEES  -->
+	<menuitem id="menu_dincelpayroll_report_emp_activity"
+		name="Activity Summary"
+		parent="menu_dincelpayroll_report_employee"
+		action="action_dincelpayroll_report_actsummary"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_emp_details"
+		name="Activity Details"
+		parent="menu_dincelpayroll_report_employee"
+		 action="action_dincelpayroll_report_actdetails"
+	   />	 
+   
+	<menuitem id="menu_dincelpayroll_report_employement"
+			name="Employment Details"
+			parent="menu_dincelpayroll_report_employee"
+			 action="action_dincelpayroll_report_empdetails"
+		   />
+
+	<menuitem id="menu_dincelpayroll_report_pay_advice"
+			name="Payroll advice"
+			parent="menu_dincelpayroll_report_employee"
+			 action="action_dincelpayroll_report_payadvice"
+		   />		
+
+	<menuitem id="menu_dincelpayroll_report_timesheet"
+		name="Timesheets"
+		parent="menu_dincelpayroll_report_employee"
+		 action="action_dincelpayroll_report_emptimesheet"
+	   />	 
+	   
+	<menuitem id="menu_dincelpayroll_report_unproc_timesheet"
+		name="Unprocessed Timesheets"
+		parent="menu_dincelpayroll_report_employee"
+		 action="action_dincelpayroll_report_pendingtimesheet"
+	   />
+   
+	<menuitem id="menu_dincelpayroll_report_std_paydtl"
+		name="Standard Pay Details"
+		parent="menu_dincelpayroll_report_employee"
+		action="action_dincelpayroll_report_stdpaydtl" 
+	   />
+   
+	<!-- SUPERANNUATION  -->
+	<menuitem id="menu_dincelpayroll_report_super_accurals"
+		name="Accruals"
+		parent="menu_dincelpayroll_report_super"
+		action="action_dincelpayroll_report_accurals"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_super_payments"
+		name="Summary"
+		parent="menu_dincelpayroll_report_super"
+		action="action_dincelpayroll_report_super_summary"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_super_forecasts"
+		name="Forcast Accruals"
+		parent="menu_dincelpayroll_report_super"
+		action="action_dincelpayroll_report_forecastaccurals"
+	   />	
+	   
+	<!-- ENTITLEMENTS  -->
+	<menuitem id="menu_dincelpayroll_report_entitle_summary"
+		name="Summary"
+		parent="menu_dincelpayroll_report_entitlements"
+		action="action_dincelpayroll_report_entitlesumm"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_entitle_details"
+		name="Details"
+		parent="menu_dincelpayroll_report_entitlements"
+		action="action_dincelpayroll_report_entitledetails"
+	   />	
+	
+	<menuitem id="menu_dincelpayroll_report_opening_balance"
+		name="Opening Balances"
+		parent="menu_dincelpayroll_report_entitlements"
+		action="action_dincelpayroll_report_opening_balance"
+	   />	
+	   
+	<!-- TAX  -->
+	<menuitem id="menu_dincelpayroll_report_tax_report"
+		name="Payroll Tax Report"
+		parent="menu_dincelpayroll_report_tax"
+		action="action_dincelpayroll_report_payrolltax"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_tax_payment"
+		name="Payroll Tax Payment"
+		parent="menu_dincelpayroll_report_tax"
+		action="action_dincelpayroll_report_payrolltaxpay"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_tax_payg"
+		name="PAYG Witholding Tax "
+		parent="menu_dincelpayroll_report_tax"
+		action="action_dincelpayroll_report_paygtax"
+	   />	
+   
+	<!-- YEAR END  -->
+	<menuitem id="menu_dincelpayroll_report_yy_summary"
+		name="Payment Summary Report"
+		parent="menu_dincelpayroll_report_yearend"
+		action="action_dincelpayroll_report_yearend"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_yy_ato"
+		name="ATO EMPDUPE Media File"
+		parent="menu_dincelpayroll_report_yearend"
+		action="action_dincelpayroll_report_atomedia"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_yy_media"
+		name="Preview EMPDUPE Media File"
+		parent="menu_dincelpayroll_report_yearend"
+		action="action_dincelpayroll_report_atopreview"
+	   />	
+   
+	<!-- PAYROLL  -->
+ 
+	<menuitem id="menu_dincelpayroll_report_pay_cost"
+		name="Costing Reports "
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_costing"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_summary"
+		name="Payroll Summary"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_paysummary"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_register"
+		name="Payroll Register Summary"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_payregister"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_entry"
+		name="Payroll Entries"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_payentry"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_pay_allow"
+		name="Allowances"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_payallowance"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_deduct"
+		name="Deductions"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_paydeduction"
+	   />
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_terminate"
+		name="Termination Pay Details"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_payterminate"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_salsac"
+		name="Salary Sacrifice"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_salsacrifice"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_pay_hours"
+		name="Hours Worked "
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_hrsworked"
+	   />	
+	   
+	<menuitem id="menu_dincelpayroll_report_pay_dates"
+		name="Employee Annivesary dates"
+		parent="menu_dincelpayroll_report_payroll"
+		action="action_dincelpayroll_report_annidates"
+	   />	
+	   
+   
+	<!-- JOURNALS  -->
+	<menuitem id="menu_dincelpayroll_report_journ_payrun"
+		name="Payrun Journals "
+		parent="menu_dincelpayroll_report_journals"
+		action="action_dincelpayroll_report_payrunjurn"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_journ_leave"
+		name="Leave liablity Journals"
+		parent="menu_dincelpayroll_report_journals"
+		action="action_dincelpayroll_report_leaveliabjurn"
+	   />	
+   
+	<menuitem id="menu_dincelpayroll_report_journ_tax"
+		name="Payroll Tax Journals"
+		parent="menu_dincelpayroll_report_journals"
+		action="action_dincelpayroll_report_taxjurn"
+	   />	
+	   
+</odoo>
+
+
+

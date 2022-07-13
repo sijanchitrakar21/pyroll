@@ -1,0 +1,5 @@
+.navbar-inverse .navbar-nav > li > a {color:#FFFFFF !important;}
+.navbar-inverse .navbar-nav > li > a:hover {background-color:#EE0000 !important;}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus{background-color:#FF0000 !important;}
+/*a:focus{background-color:#FF0000 !important;} */
+.o_form_statusbar{z-index:100 !important;position:fixed !important; width:86%;}

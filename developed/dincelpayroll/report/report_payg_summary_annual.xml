@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<template id="report_payg_summary_annual_document"> 
+	
+			<div class="article" >
+			<style>
+				 .label0{float:left;width:130px; margin-left:14px;}
+                 .label1{float:left;width:180px; margin-left:14px;}
+				 .label2{float:left;width:90px; margin-left:14px;}
+				 .border1{border:1px solid black;padding:8px;}
+				 .border2{border:2px solid black;padding:8px;}
+				 .padding10{padding:10px;}
+				 .padding8{padding:8px;}
+				 *, div, td, th {font-size:11px;}
+             </style>
+			 
+			<t t-foreach="summary_line" t-as="summary">
+			
+			<div class="page">
+
+			 <div >
+			 
+				<div class="row"><!-- 
+					<div class="col-xs-4  text-left" >
+				   <img src='/web/static/src/img/dincel-logo.jpg' style="max-height: 35px;"/>
+				 
+				   </div>
+				   
+					<div class="col-xs-4 text-center" >
+						Postal Address: PO Box 104 <br />
+						St Clair, NSW 2759 <br />
+						A.B.N. 78 083 839 614
+					</div>
+				
+					<div class="col-xs-4  text-left">
+				   
+					<span> </span>
+				   </div>
+				   -->
+				   <div class="text-center">  
+					  <h3>PAYG payment summary – individual non-business </h3>
+					  <div>Payment summary for year ending 30 June <span t-esc="summary['year']"/><br />  </div>
+				   </div> 
+				 </div> 
+				  
+				   
+				  
+				  
+				  <div  class="row">
+				  
+				    <div class="col-xs-5 text-left"><br />
+					<span><strong>Payee details </strong></span><br />
+					<span t-esc="summary['employee']"/>	<br />
+					<span t-esc="summary['address_line1']"/><br />
+					<span t-esc="summary['address_line2']"/><br />
+					<span t-esc="summary['address_line3']"/><br />
+					</div>
+					 <div class="col-xs-2 text-left" >
+					<span></span>
+				   </div>
+					<div class="col-xs-5  text-left"><br />
+				   
+					<span><strong>NOTICE TO PAYEE</strong></span><br />
+					If this payment summary shows an amount in the total
+					tax withheld box you must lodge a tax return. If no tax
+					was withheld you may still have to lodge a tax return.<br />
+					For more information on whether you have to lodge, or
+					about this payment and how it is taxed, you can:<br />
+					■ refer to TaxPack<br />
+					■ phone 13 28 61 between 8.00am and 6.00pm (EST), Monday to Friday, or<br />
+					■ visit www.ato.gov.au<br />
+					   </div>
+				  </div>
+				  
+			 
+				 <br />
+				   <div  class="row">
+					<div class="col-xs-4  text-left">  
+						</div>
+						<div class="col-xs-2  text-left">  Day/Month/Year
+						</div>
+						<div class="col-xs-1  text-left">  
+						</div>
+						<div class="text-left">  Day/Month/Year
+						</div>
+				   </div>
+				   <div  class="row">
+					<div class="col-xs-4  text-left">  Period during which payments were made
+						</div>
+						<div class="col-xs-2  text-left">  <span t-esc="summary['date']"/>
+						</div>
+						<div class="col-xs-1  text-left">  to
+						</div>
+						<div class="text-left">  <span t-esc="summary['date']"/>
+						</div>
+				   </div>
+				   <div  class="row"><div class="col-xs-6  text-left padding8">
+							<div class="col-xs-8  text-left padding8"  style="padding:8px;">  Payee's tax file number
+							</div>
+							<div class="col-xs-4  text-left padding8"  style="padding:8px;">  <span t-esc="summary['date']"/>
+						</div>
+						</div>
+						<div  class="col-xs-6 border2 text-left">
+							<div class="col-xs-6 text-left padding8" > <strong> TOTAL TAX WITHHELD $</strong>
+							</div>
+							<div class="col-xs-6 text-left border1">  <span t-esc="summary['date']"/>
+							</div>
+						</div>
+				   </div>
+				  
+				  
+				  
+				  
+				  <div  class="row padding8">
+					<div class="col-xs-4  text-left padding8">  					</div>
+					<div class="col-xs-1  text-left padding8"> 						</div>
+					<div class="col-xs-3  text-left padding8">  </div>	
+					<div class="col-xs-3  text-left "> Lump sum payments</div>	
+				  </div>
+				
+				  <div  class="row padding8">
+					<div class="col-xs-4  padding8 text-left">  		Gross payments 				</div>
+					<div class="col-xs-1 text-right padding8"><strong>$</strong> 						</div>
+					<div class="col-xs-3 border1 text-left">   </div>	
+					<div class="col-xs-1 text-right padding8"> <strong>A $ </strong></div>	
+					<div class="col-xs-3 border1 text-left ">   </div>	
+				  </div>
+				
+				 
+				 
+				  <div  class="row padding8">
+					<div class="col-xs-4  text-left padding8">  				<span>CDEP payments  </span>					</div>
+					<div class="col-xs-1 text-right padding8"> <strong>$</strong>  						</div>
+					<div class="col-xs-3 border1 text-left">   </div>	
+					<div class="col-xs-1 text-right padding8"> <strong>B $ </strong></div>	
+					<div class="col-xs-3 border1 text-left ">  </div>	
+				  </div>
+				  
+				  <div  class="row padding8">
+					<div class="col-xs-4 text-left padding8">  					<span>Other income  </span>					</div>
+					<div class="col-xs-1 text-right padding8"><strong>$</strong> 						</div>
+					<div class="col-xs-3 border1 text-left">   </div>	
+					<div class="col-xs-1 text-right padding8"> <strong>C $</strong> </div>	
+					<div class="col-xs-3 border1 text-left ">   </div>		
+				  </div>
+				  
+				  <div  class="row padding8">
+					<div class="col-xs-4 text-left padding8" ><span>Reportable fringe benefits amount <br />FBT year 1 April to 31 March  </span>				</div>
+					<div class="col-xs-1 text-right padding8"><strong>$</strong> 						</div>
+					<div class="col-xs-3 border1 text-left">   </div>	
+					<div class="col-xs-1 text-right padding8"> <strong>D $</strong> </div>	
+					<div class="col-xs-3 border1 text-left">   </div>		
+				  </div>
+				  
+			 
+			  
+				 </div> 
+			  <div  class="row"><br />
+			   </div> 
+				 
+				 <div  class="row"><br />
+					</div> 
+				  <div  class="row"><br />
+					</div> 
+				  <div  class="row" style="border-bottom:2px solid black;"><br />
+					</div> 
+				  <div  class="row padding8"><strong>Payer details</strong><br />
+					</div> 
+				  <div  class="row"><div  class="col-xs-4 padding8 text-left">Payer's ABN or withholding payer number</div>
+						<div  class="col-xs-3 text-left padding8">
+						
+						 
+						</div>
+						<div  class="col-xs-2 text-left padding8">Branch number
+						
+						 
+						</div>
+						<div  class="col-xs-3 text-left padding8"> 
+						
+						 
+						</div>
+					</div> 
+				  
+				  <div  class="row">	<div  class="col-xs-2 padding8 text-left">Payer's name</div>
+						<div  class="col-xs-8 text-left padding8">
+						
+						 
+						</div>
+					</div> 
+			    <div  class="row"><div class="col-xs-12 border1 padding8">
+						<div  class="col-xs-4  text-left">
+						
+						Signature of authorised person
+						</div>
+						<div  class="col-xs-3  text-left">
+						
+						 
+						</div>
+						<div  class="col-xs-1  text-left">
+						
+						Date
+						</div>
+						<div  class="col-xs-4  text-left">
+						
+						 
+						</div>
+				
+				</div>
+					</div> 
+					<div  class="row">NAT14363-01.2006
+					</div> 
+			</div>
+			 
+			<div style="page-break-after: always;"><span style="display: none;"> </span></div>
+			
+			</t>
+	 </div>
+</template>
+
+
+
+<template id="report_payg_summary_annual">
+    <t t-call="dincelpayroll.dincelhtml_container"  >
+        <t t-foreach="docs" t-as="doc"  >
+            <t t-call="dincelpayroll.report_payg_summary_annual_document" />
+        </t>
+    </t>
+
+</template>
+ 
+ 
+</odoo>

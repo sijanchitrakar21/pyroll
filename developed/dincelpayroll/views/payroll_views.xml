@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 
+	<record id="view_dincelpayroll_payslip_filter" model="ir.ui.view">
+        <field name="name">dincelpayroll.payslip.select</field>
+        <field name="model">hr.payslip</field>
+        <field name="arch" type="xml">
+            <search string="Search Payslips">
+                <filter string="Hour Variance" domain="[('x_hours_variance','=',True)]" help="Hour Variance"/>
+				<field name="name" string="Payslips" filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>
+                <field name="date_from"/>
+                <filter string="Draft" domain="[('state','=','draft')]" help="Draft Slip"/>
+                <filter string="Done" domain="[('state','=','done')]" help="Done Slip"/>
+				<filter string="Timesheet" domain="[('x_is_timesheet','=',True)]" help="Timesheet Slips"/>
+				<filter string="Autopay/Salary" domain="[('x_is_timesheet','=',False)]" help="Autopay/Salary Slip"/>
+				
+                <field name="employee_id"/>
+                <field name="payslip_run_id" invisible="1"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employees" name="employee_id" context="{'group_by':'employee_id'}"/>
+                    <filter string="PaySlip Batch" name="payslip_run_id" context="{'group_by':'payslip_run_id'}" invisible="1"/>
+                    <filter string="Companies" name="company_id" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+                    <filter string="States" name="state" context="{'group_by':'state'}"/>
+					<filter string="Timesheet" name="timesheet" context="{'group_by':'x_is_timesheet'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+	
+	
+	
+	<record id="dincelpayroll_payslip_employee_form_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.payslip.employee.form</field>
+		<field name="model">hr.payslip</field>
+		<field name="arch" type="xml">
+
+		<form string="Payslip" create="false">
+				<header>
+				   <!-- 
+						<button name="button_payslip_wizard" type="object"  string="New Payslip*"/>
+					   -->
+					<button name="button_calculate_summary" string="Reset" class="oe_highlight"      type="object" />
+					<button name="button_leave_balance" string="Preview Leave Balance"   type="object" />
+					<button name="button_validate_pay" string="Validate (create journals)" states="draft,confirm"   type="object" />
+					<button name="button_reset_timesheet" string="Reinstate Original Timesheet"      type="object" />
+					<button name="button_payroll_slip" string="Preview Payslip"  invisible="1"     type="object" />
+					<button name="button_payslip_pdf1" string="PDF Payslip1"     invisible="1"   type="object" />
+					<button name="button_payslip_pdf_new" string="Generate PDF"    invisible="1"    type="object" />
+					<button name="button_payslip_pdf_new2" string="Generate Payslip Pdf" type="object" />	
+					
+					<button name="button_download_payslip_pdf" string="Download PDF"   invisible="1"   type="object" />
+					<button name="button_update_leavebalance" string="Update Leave Balance"      type="object" />
+					
+					<button name="button_generate_aba" string="Download ABA File"    states="done"   type="object" />
+					
+					<button name="button_mark_as_draft" string="Mark as Draft"  type="object" />
+					
+					<field name="state" widget="statusbar" statusbar_visible="draft,verify,cancel,confirm,done"/>
+				
+				</header>
+				 <!--
+					<div class="oe_button_box" name="button_box">
+						<button name="331" class="oe_stat_button" icon="fa-money" type="action">
+							<field name="payslip_count" widget="statinfo" string="Payslip" help="Payslip Computation Details"/>
+						</button>
+					</div>
+					<div class="oe_title">
+						<label for="employee_id" class="oe_edit_only"/>
+						<h1><field name="employee_id" placeholder="Employee"/></h1>
+					</div> --><label colspan="2" string="Work hour variance found for this payslip!" style="color:red; border:1px solid red; padding:10px;" attrs="{'invisible': [('x_hours_variance','=',False)]}"/>
+                <group>
+					<group>
+						<field name="employee_id" readonly="1" string="Employee Name"/>
+						<field name="date" string="Payment Date"  />
+						<field name="x_payfrequency_id"  readonly="1"/>
+						<field name="x_type" invisible="1"/>
+						<label for="date_from" string="Pay Period" />
+						<div>
+							<field name="date_from" class="oe_inline"  /> - <field name="date_to" class="oe_inline"  />
+						</div>
+						
+						 
+						<field name="name" invisible="1" string="Pay Reference ID for ERP"/>
+						<field name="number" string="Pay Reference ID on payslip"/>					
+						<field name="x_chequeno" />
+						<field name="contract_id" domain="[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False)]" context="{'default_employee_id': employee_id}" invisible="1"/>
+					   
+						<field name="struct_id" invisible="1" attrs="{'required':[('contract_id','!=',False)]}"/>
+						
+						<field name="x_batch" invisible="1"/>
+						<field name="credit_note" invisible="1"/>
+						
+						<field name="x_is_timesheet" readonly="1" string="Timesheet Exists?" />
+						<field name="x_worked_hrs" readonly="1" />
+						<field name="x_pdf_exists" invisible="1"/>
+						
+						<field name="x_hours_variance" invisible="1"/>
+						<field name="x_origin_id" readonly="1" string="Ref ID original payslip"/>
+					</group>
+					
+					<group>
+						
+						 <group colspan="2">
+							<field name="x_emp_number" readonly="1" />
+							<field name="x_job_id" readonly="1"/>
+							<field name="x_group_id" readonly="1"/>
+							<field name="x_emp_status" readonly="1"/>
+							
+							<field name="x_clearing_account_id" invisible="1" />
+							<field name="x_payslip_deli" readonly="1"/>
+							<field name="x_email_pay" readonly="1"/>
+							<field name="x_time_import_id" readonly="1"/>
+							
+							<field name="x_printed" invisible="1"/>
+							<field name="x_emailed" invisible="1"/>	
+							<field name="x_xls_dcs" invisible="1"/>	
+							<field name="x_email_que" invisible="1"/>	
+							<button name="button_calculate_payslip" string="Re-calculate Payslip after adjustments" type="object" />							
+							<button name="button_clear_emailque" confirm="Are you sure to continue?" attrs="{'invisible': [('x_email_que','=', False)]}" string="Remove from Email Queue" type="object" style="border:1px solid red;"/>							
+								<button name="button_generate_ato_test" string="TEST XML" type="object" />	
+								
+								 
+								
+						</group>
+					</group>
+					
+                </group>
+			
+                <notebook>
+					<page string="Payslip">
+					 
+						<group colspan="2" >
+						<field name="x_summary_ids" nolabel="1"   >
+						<tree string="Summary" editable="bottom" >
+							<field name="sequence" widget="handle" />
+							<field name="pay_header" />
+							<field name="category_id" />
+							
+							<field name="name" invisible="1"/>
+							<field name="cost_state_id"  invisible="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+							<field name="costcentre_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+							<field name="account_id"/>
+							<field name="tot_hrs" sum="Sum Total" invisible="1" />
+							<field name="factor_type"  invisible="1" />
+							<field name="xfactor"  />
+							<field name="pay_rate"  invisible="1"/>
+							<field name="net_hrs" sum="Net Total"   />
+							<field name="net_rate"  />
+							<field name="tax_id" invisible="1" />
+							<field name="sub_total" sum="Sum Subtotal" />
+							<field name="ytd_total" readonly="1"/>
+							<field name="super" readonly="1"/>
+							<field name="taxable" readonly="1"/>
+							<field name="is_summary" />
+							<field name="is_manual" />
+						</tree>
+						
+						</field>
+						
+						</group>
+						
+						<group colspan="2">
+							<group>
+								
+								<field name="x_gross_ytd" widget="monetary"  readonly="1"/>
+								<field name="x_tax_ytd"   widget="monetary" readonly="1"/>
+								<field name="x_super_ytd"  widget="monetary" readonly="1"/>
+								<field name="x_annual_ytd"  readonly="1"/>
+								<field name="x_personal_ytd" readonly="1"/>
+								<field name="x_lsl_ytd" readonly="1"  attrs="{'invisible': [('x_lsl_enable','=', False)]}"/>
+								
+							</group>
+							
+							<group class="oe_subtotal_footer oe_right" >
+						  
+									 
+								<field name="x_gross_payslip_amt" widget="monetary"  readonly="1"/> 
+								
+								<field name="x_gross_amt" widget="monetary"  readonly="1"/>
+								
+								<field name="x_tax_amt" string="TAX" readonly="1"/>
+								<field name="x_net_amt" readonly="1"/>
+								 
+								<field name="x_super_amt"  string="SUPER" readonly="1"/>
+								
+								<field name="x_annual_leave" readonly="1"/>
+								<field name="x_sick_leave" readonly="1"/>
+								<field name="x_lsl_leave" readonly="1"  attrs="{'invisible': [('x_lsl_enable','=', False)]}"/> 
+								
+								<field name="x_lsl_enable"   invisible="1"/>
+							 
+							
+							</group>
+							
+							</group>
+					</page>
+					
+					<page string="Timesheet Details">
+						 <field name="x_timesheet_ids2"   context="{'default_employee_id': employee_id}">
+							<tree string="Timesheet"  editable="bottom"  open="false">
+								<field name="employee_id"  invisible="1"/>
+								
+								<field name="sequence"  widget="handle" />
+								<field name="date" required="1" />
+								<field name="name" required="1" />
+								
+								<field name="category_id" required="1" />
+								<field name="accrued_leave" invisible="1" />
+								
+								<field name="hrs" sum="Tot. Hrs" required="1" />
+								<field name="factor_type"  />
+								<field name="xfactor"  required="1" />
+								<field name="hrs_net"  invisible="1" sum="Net Hrs" />
+								
+								 
+								
+								
+							</tree>
+						</field>
+					</page>	
+					<page string="Timesheet Summary" invisible="1" attrs="{'invisible': [('x_is_timesheet','=', False)]}" >
+                        <field name="x_timesheet_ids" >
+							<tree string="Timesheet"  editable="bottom"  open="false">
+								<field name="employee_id"  invisible="1"	 />
+								<field name="name"  options='{"fg_color": "grey:is_weekend==True;white:is_over_hours==True;","bg_color":"red:is_over_hours==True;"}'/>
+								<field name="date" options='{"fg_color": "grey:is_weekend==True;"}' />
+								<field name="category_id" options='{"fg_color": "grey:is_weekend==True;"}' domain="[('type', '=', '0'),('category','=','wage')]"/>
+								<field name="time_in" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="time_out" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								
+								<field name="tot_hrs" invisible="1" sum="Total Hrs" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="break_unpaid" sum="Total Unpaid Break" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="hrs_normal" sum="Total Normal" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="break_paid" sum="Total Paid" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								
+								<field name="hrs_t15" sum="Total T1.5" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="hrs_t20" sum="Total T2.0" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="account_id" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="project_id" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								
+								<field name="leave_annual" sum="Total Annual" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="leave_sick" sum="Total Sick" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="leave_unpaid" sum="Total Unpaid" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="leave_part" sum="Total Part" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="rate_loading" invisible="1" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="hrs_loading" invisible="1" sum="Total Loading" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="loading_noon" sum="Total Loading Noon" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="loading_night" sum="Total Loading Night" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								<field name="tot_worked_hrs"   sum="Total Worked" options='{"fg_color": "grey:is_weekend==True;"}'/>
+								
+								<field name="is_weekend" invisible="1"/>
+								<field name="is_over_hours" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+					
+					<page string="Leaves">
+						<button type="object" string="Update Leave Timesheet" name="button_update_leave_ts"/>
+					   <group colspan="2">
+					   
+						<field name="x_leave_ids" editable="bottom"  context="{'default_employee_id': employee_id}" nolabel="1">
+							<tree >
+								<field name="category_id"   />
+								<field name="holiday_status_id"  invisible="1" />
+								<field name="holiday_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+								<field name="employee_id" invisible="1" />
+								<field name="date_from"  />
+								<field name="date_to"  />
+								<field name="day_ids2"  invisible="1" widget="many2many_tags"/>
+								<field name="date" invisible="1" />
+								
+								<field name="tot_hrs" sum="Tot Hours" />
+							</tree>
+							<form >
+								<group>
+								<group> <!-- 
+									<field name="holiday_id" required="1" domain="[('employee_id','=',parent.employee_id),('x_date_from','&lt;=',parent.date_to),('x_date_from','&gt;=',parent.date_from)]"  context="{'default_employee_id': parent.employee_id}"/> -->
+									<field name="holiday_id" required="1" domain="[('employee_id','=',parent.employee_id),('x_redeem','in',['part','none'])]"  context="{'default_employee_id': parent.employee_id}"/> 
+									<field name="employee_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+									<field name="date_from" invisible="1"/>
+									<field name="date_to"  invisible="1"/>
+									
+									<field name="date" invisible="1"/>
+									
+									</group>
+									<group>
+									
+									<field name="category_id"  invisible="1"  />
+									<field name="balance_hrs"  />
+									<field name="tot_hrs" invisible="1" />
+									
+									<field name="day_ids2" invisible="1"  options="{'no_quick_create': True, 'no_create_edit' : True}" widget="many2many_tags" domain="[('payslip_id','=',parent.id)]"/>
+									</group>
+								</group>
+								<group>
+									<field name="leave_days"> 
+										<tree editable="bottom" >
+											<field name="date" invisible="1"   />
+											<field name="name"   />
+											<field name="is_leave" />
+											<field name="hours" sum="Total Hours"  />
+										</tree>	
+									</field>
+								</group>
+							</form>
+						</field>
+					   
+					   </group>
+				   </page>
+					
+				
+					<page  string="Journals">
+						<separator string="Journals"/>
+						<field name="x_journal_ids" readonly="1">
+						 </field>
+					</page>		
+							
+                    <page invisible="1"  string="Worked Days &amp; Inputs">
+                        <separator string="Worked Days"/>
+                        <field name="worked_days_line_ids">
+                            <tree string="Worked Days" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="number_of_days" sum="Total Working Days"/>
+                                <field name="number_of_hours"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Worked Day">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="sequence"/>
+                                    <field name="number_of_days"/>
+                                    <field name="number_of_hours"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Other Inputs"/>
+                        <field name="input_line_ids" colspan="4" nolabel="1">
+                            <tree string="Input Data" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="amount"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Payslip Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="sequence"/>
+                                    <field name="amount"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+						
+                    </page>
+					
+                    <page invisible="1" string="Salary Computation">
+                        <field name="line_ids" colspan="4" nolabel="1">
+                            <tree string="Salary Structure" editable="bottom" >
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="category_id"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="quantity"/>
+                                <field name="rate"/>
+                                <field name="salary_rule_id"/>
+								<field name="contract_id"/>
+                                <field name="amount"/>
+                                <field name="total"/>
+                            </tree>
+                            <form string="Payslip Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence"/>
+                                    <field name="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                    <field name="total"/>
+                                    <field name="salary_rule_id"/>
+									<field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page invisible="1" string="Details By Salary Rule Category">
+                        <field name="details_by_salary_rule_category" context="{'group_by':'category_id'}" domain="[('appears_on_payslip', '=', True)]">
+                            <tree string="Payslip Lines" decoration-info="total == 0">
+                                <field name="category_id"/>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                   </page>
+                    <page invisible="1" string="Accounting Information">
+                        <group>
+                            <group string="Miscellaneous">
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="payslip_run_id" domain="[('state','=','draft')]"/>
+                            </group>
+                            <group name="accounting" string="Accounting">
+                                <field name="paid" readonly="1"/>
+                            </group>
+                        </group>
+                        <div colspan="4">
+                            <field name="note" placeholder="Internal note..."/>
+                        </div>
+                   </page>
+                
+				</notebook>
+                  <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+		 </field>
+    </record>
+	
+	<record id="dincelpayroll_pay_category_filter" model="ir.ui.view">
+		<field name="name">Category Search</field>
+		<field name="model">hr.pay.category</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" string="Title"/>
+				<field name="category" />
+				<field name="code"/> 
+				<field name="mapping_txt"/>
+
+			  
+				<group expand="0" string="Group By">
+					<filter string="Category"    domain="[]" help="Category" context="{'group_by':'category'}" />
+					 
+			 
+				</group>
+			</search>
+		</field>
+	</record>
+	 
+	
+	 <record model="ir.ui.view" id="dincelpayroll_pay_category_tree">
+            <field name="name">Pay / Wage Category</field>
+            <field name="model">hr.pay.category</field>
+            <field name="arch" type="xml">
+                <tree >
+					<field name="name" />
+					<field name="category" />
+					<field name="parent_id" />
+					<field name="sub_category"/>
+                    <field name="code"/>
+					<field name="mapping_txt" />
+					<field name="pc_amt" />
+					<field name="amt_type" />
+					<field name="uom_code" />
+					<field name="loading_ratio"/>
+					
+                    <field name="type" invisible="1"/>
+					<field name="is_summary" />
+					<field name="summary_type" />
+					<field name="taxable" />
+					<field name="super" />
+					<field name="accrued" invisible="1"/>
+					<field name="holiday_status_id" />
+					
+					<field name="expense_account_id"/>
+					<field name="payable_account_id"/> 
+                </tree>
+            </field>
+        </record>
+		
+		 <record model="ir.ui.view" id="dincelpayroll_pay_category_form">
+            <field name="name">Pay / Wage Category Form</field>
+            <field name="model">hr.pay.category</field>
+            <field name="arch" type="xml">
+                <form >
+					 <sheet>
+					 <group>
+						
+						<group>
+						<field name="name" />
+						<field name="category" />
+						<field name="super_type" attrs="{'invisible': [('category','not in', ['super'])]}"/>
+						<field name="allowance_type" attrs="{'invisible': [('category','not in', ['allowance'])]}"/>
+						<field name="deduction_type" attrs="{'invisible': [('category','not in', ['deduction'])]}"/>
+						<field name="is_summary" />
+						
+						
+						<field name="parent_id" attrs="{'invisible': [('is_summary','=', True)]}"/>
+						<field name="pay_type" />
+						<field name="summary_type" invisible="1" />
+						
+						<field name="pc_amt" />
+						<field name="uom_code" />
+						<field name="subtype" invisible="1"/>
+						<field name="amt_type" />
+						<field name="pay_basis"/>
+						
+						<field name="entitlement" invisible="1"/>
+						
+						<field name="type" invisible="1"/>
+						
+						<field name="sub_category"/>
+						<field name="holiday_status_id" />
+					
+						
+					
+						<field name="print_type"/>
+						<field name="calc4gross"/>
+						<field name="comments"/>
+						<field name="is_loading"/>
+						<field name="is_ts_sum"/>
+						
+						<field name="factor_type"/>
+						<field name="factor_default"/>
+						</group>
+						<group>
+						<field name="code"/>
+						<field name="is_dcstime"/>
+						<field name="is_directpay"/>
+						
+						<field name="auto_category_id" />
+						<field name="mapping_txt" />
+						<field name="tax_id" invisible="1" />
+						<field name="taxable" />
+						<field name="tax_type"/>
+						<field name="super"/>
+						<field name="is_tax"/>
+						<field name="allow_enter"/>
+						<field name="accrued" invisible="1"/>
+						<field name="balance_fw"/>
+						<field name="expense_account_id"/>
+						<field name="payable_account_id"/>
+						
+						<field name="active" />
+						<field name="sequence" />
+						
+						
+						</group>
+						
+					 </group>
+					  </sheet>
+                </form>
+            </field>
+        </record>
+		
+		
+		
+		<record id="dincel_payroll_timesheet_filter" model="ir.ui.view">
+		<field name="name">Timesheet Search</field>
+		<field name="model">hr.payslip.timesheet</field>
+		<field name="arch" type="xml">
+			<search>
+					<field name="name" />
+					<field name="date" />
+					<field name="employee_id"/>
+			
+			 
+				 
+			  
+					<group expand="0" string="Group By">
+					<filter string="Employee"   domain="[]" help="Employee" context="{'group_by':'employee_id'}" />
+					 
+			 
+				</group>
+			</search>
+		</field>
+	</record>
+	
+	 
+		
+	<record id="dincelpayroll_timesheet_tree_view1" model="ir.ui.view">
+        <field name="name">dincelpayroll.scale.tree1</field>
+        <field name="model">hr.payslip.timesheet</field>
+        <field name="arch" type="xml">
+            <tree >
+               <field name="name" />
+			   <field name="date" />
+			   <field name="employee_id"/>
+            </tree>
+        </field>
+    </record>
+	
+	 <record id="hr_payroll_view_hr_payslip_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.payslip.view.tree.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="arch" type="xml">
+		 <field name="number" position="after"> 
+				<field name="date"  />
+		 </field>
+		  <field name="employee_id" position="replace"> 
+				<field name="x_first_name"  />
+				<field name="x_last_name"  />
+		 </field>
+		 <field name="state" position="before"> 
+				<field name="x_payslip_deli"  />
+		 </field>
+		 </field>
+	 </record>
+	 
+	<record id="dincelpayroll_log_record_tree_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.log.record.tree</field>
+        <field name="model">hr.log.record</field>
+        <field name="arch" type="xml">
+            <tree>
+               <field name="name" />
+			   <field name="date" />
+			   <field name="empnumber"/>
+			   <field name="comments"/>
+            </tree>
+        </field>
+    </record>
+	 
+	<record id="action_dincelpayroll_log_record" model="ir.actions.act_window">
+		<field name="name">Error Logs</field>
+		<field name="res_model">hr.log.record</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	
+	</record>
+	
+	<record id="action_dincelpayroll_paycategory_item" model="ir.actions.act_window">
+		<field name="name">Payslip Line Item</field>
+		<field name="res_model">hr.pay.category</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('is_summary', '!=', True)]</field>
+		<field name="context">{'default_is_summary': False}</field>
+	</record>
+	
+	<record id="action_dincelpayroll_paycategory_summary" model="ir.actions.act_window">
+		<field name="name">Payslip Category / Summary</field>
+		<field name="res_model">hr.pay.category</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('is_summary', '=', True)]</field>
+		<field name="context">{'default_is_summary': True}</field>
+	</record>
+	
+	<!-- not in use "action_dincelpayroll_paycategory" -->
+	<record id="action_dincelpayroll_paycategory" model="ir.actions.act_window">
+		<field name="name">Pay Category All</field>
+		<field name="res_model">hr.pay.category</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		
+	</record>
+	
+	<record id="action_dincelpayroll_groupsettings" model="ir.actions.act_window">
+		<field name="name">Payroll Group Settings</field>
+		<field name="res_model">hr.employee.group</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		
+	</record>
+		
+		
+	<record id="action_dincelpayroll_scalesettings" model="ir.actions.act_window">
+		<field name="name">Tax Scale Settings</field>
+		<field name="res_model">dincelpayroll.scale</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="dincelpayroll_scale_filter"/>
+		<field name="context">{'search_default_open':1}</field>
+	</record>
+		
+		
+	<record id="action_dincelpayroll_employees" model="ir.actions.act_window">
+		<field name="name">Employees</field>
+		<field name="res_model">hr.employee</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>	
+	
+	<record model="ir.actions.act_window.view" id="action_dincelpayroll_employees_tree">
+		<field name="sequence" eval="1"/>
+		<field name="view_mode">tree</field>
+		
+		<field name="act_window_id" ref="action_dincelpayroll_employees"/>
+    </record>
+   
+    <record model="ir.actions.act_window.view" id="action_dincelpayroll_employees_form">
+		<field eval="2" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="dincelhr_employee_view_form"/>
+		<field name="act_window_id" ref="action_dincelpayroll_employees"/>
+	</record>
+	
+	<record id="action_dincelpayroll_import_timesheet" model="ir.actions.act_window">
+		<field name="name">Timesheet Import</field>
+		<field name="res_model">hr.timesheet.batch</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>	
+		
+	
+		
+</odoo>

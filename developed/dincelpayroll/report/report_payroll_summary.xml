@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_paysummary_document"> 
+	<t t-call="web.external_layout"> 
+		<div class="page">
+			<h3>
+				<span>Report <t if="employee"><span t-esc="report_title" /></t></span>
+			</h3>
+			 
+			<h4>
+				Date: <t if="date_from"><span t-esc="date_from" t-field-options='{"format": "dd/MM/yyyy"}'/></t> - <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+			</h4>
+			
+			<table border="1" class="table table-condensed">
+				 <thead>
+				 
+                        <tr class="text-center">
+							<th class="text-center">ID</th>
+							<th class="text-center">Employee Name</th>
+							<th class="text-center">Employee No</th>
+							<th class="text-center">Date</th>
+							<th class="text-center">Reference</th>
+							<th class="text-center">Gross Amt</th>
+							<th class="text-center">Gross Payslip Amt</th>
+							<th class="text-center">Tax Amt</th>
+							<th class="text-center">Net Amt</th>
+							<th class="text-center">Super Amt</th>
+							<th class="text-center">Annual Leave</th>
+							<th class="text-center">Personal Leave</th>
+							<th class="text-center">LSL Leave</th>
+							<th class="text-center">YTD Personal</th>
+							<th class="text-center">YTD Annual Leave</th>
+							<th class="text-center">YTD LSL</th>
+						 </tr>
+                    </thead>
+                    <tbody>
+					
+				    <t t-foreach="lines" t-as="line">
+						<tr> 
+							<td><span t-esc="line['payslip_id']" /></td>
+							<td><span t-esc="line['emp_name']" /></td>
+							<td class="text-center"><span t-esc="line['emp_no']"/></td>
+							<td class="text-center"><span t-esc="line['date']" /></td>
+							<td><span t-esc="line['payslip_ref']"/></td>
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['gross_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['gross_payslip_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.0f}'.format(line['tax_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['net_amt'])"/></td>  
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['super_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['leave_annual'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['leave_personal'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['leave_lsl'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['ytd_personal'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['ytd_annual'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['ytd_lsl'])"/></td> 
+						</tr>
+					  </t>
+					  
+				  
+					</tbody>
+					
+                </table>
+				
+			</div>
+		 </t>
+	 
+</template>
+
+
+<template id="report_paysummary">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_paysummary_document" />
+        </t>
+    </t>
+</template>
+ 
+</odoo>

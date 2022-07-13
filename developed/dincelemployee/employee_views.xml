@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+	 
+	
+	<record id="action_myleave_request" model="ir.actions.act_window">
+		<field name="name">Leave Requests</field>
+		<field name="res_model">hr.holidays</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('user_id','=',uid)]</field>
+	</record>	
+	
+	<record id="action_leave_request_all" model="ir.actions.act_window">
+		<field name="name">All Leaves</field>
+		<field name="res_model">hr.holidays</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	
+	</record>	
+	
+	<record id="action_leave_request_open" model="ir.actions.act_window">
+		<field name="name">Pending Leaves</field>
+		<field name="res_model">hr.holidays</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('x_redeem','=','none')]</field>
+	</record>	
+	
+	
+	
+</odoo>

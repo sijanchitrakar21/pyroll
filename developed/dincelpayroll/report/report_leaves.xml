@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<template id="report_leavebalance_document"> 
+	<t t-call="web.external_layout"> 
+		
+			<div class="page">
+			<h3>
+				<span>Leave Balance</span>
+			</h3>
+			 <h4>
+				<t if="employee"><span t-esc="employee[1]" /></t>
+			</h4>
+			<h4>
+				To Date: <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+			</h4>
+			<table border="1" class="table table-condensed">
+				 <thead>
+				  <tr class="table_heading"> 
+					<td></td>
+					<td><strong>BALANCE </strong></td>
+					<td class="text-right"><span t-esc="summary['annual_net']" /></td>
+					<td class="text-right"><span t-esc="summary['sick_net']" /></td>
+					<td class="text-right"><span t-esc="summary['parent_net']" /></td>
+					<td class="text-right"><span t-esc="summary['lsl_net']" /></td>
+					</tr>
+                        <tr class="text-center">
+							<th>Reference</th>
+							<th>Pay Date</th>
+							<th>Annual Leave</th>
+							
+							<th>Sick Leave</th>
+							<th>Parental Leave</th>
+							<th>Long Service Leave</th>
+						 </tr>
+                    </thead>
+                    <tbody>
+					
+				  <t t-foreach="lines" t-as="line">
+					<tr> 
+					<td><span t-esc="line['name']" /></td>
+					<td><span t-esc="line['date']" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+					<td class="text-right"><span t-esc="line['annual_leave']" /></td>
+					<td class="text-right"><span t-esc="line['sick_leave']" /></td>
+					<td class="text-right"><span t-esc="line['parent_leave']" /></td>
+					<td class="text-right"><span t-esc="line['lsl_leave']" /></td>
+					</tr>
+				  </t>
+				  
+				  <tr class="table_heading"> 
+					<td></td>
+					<td><strong>BALANCE </strong></td>
+					<td class="text-right"><span t-esc="summary['annual_net']" /></td>
+					<td class="text-right"><span t-esc="summary['sick_net']" /></td>
+					<td class="text-right"><span t-esc="summary['parent_net']" /></td>
+					<td class="text-right"><span t-esc="summary['lsl_net']" /></td>
+					</tr>
+			   </tbody>
+                </table>
+			</div>
+		 </t>
+	 
+</template>
+
+
+<template id="report_leavebalance">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_leavebalance_document" />
+        </t>
+    </t>
+</template>
+
+<!--		
+<template id="report_leavebalance">
+    <t t-call="web.html_container">
+        <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="9"/>
+        <t t-set="data_report_dpi" t-value="110"/>220
+        <t t-foreach="docs" t-as="o">11
+            <t t-call="web.internal_layout">22
+                <div class="page">33
+                    <h2>Employee Leaves</h2>
+					<p>This object's name is <span t-field="o.name"/></p>
+                    
+                </div>cc
+            </t> bbk
+        </t>000
+    </t>
+</template>
+
+-->
+</odoo>

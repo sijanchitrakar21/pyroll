@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+	 
+	<!-- All Forums Layout -->
+	<template id="staff_all">
+		<t t-call="website.layout">
+			<div class="container">
+				<h1 class="mb32">Staff Portal</h1>
+				<div class="row">
+					<div t-foreach="staffs" t-as="staff" class="col-sm-3 text-center mb32">
+						<a t-attf-href="/staff/#{ slug(staff) }">
+							<div class="fa fa-5x fa-comment mb16"/>
+							<div t-field="staff.name"/>
+						</a>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+         
+
+    </data>
+</odoo>

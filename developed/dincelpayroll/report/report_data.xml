@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <!-- 
+            Reports
+        -->
+		<report 
+            id="action_report_payentry"
+            model="report.employee.payroll"
+            string="Payroll Entries"
+            report_type="qweb-html"
+            name="dincelpayroll.report_payentry"
+            file="dincelpayroll.report_payentry"
+            />
+			
+		<report 
+            id="action_report_paysummary"
+            model="report.employee.payroll"
+            string="Payroll Summary"
+            report_type="qweb-html"
+            name="dincelpayroll.report_paysummary"
+            file="dincelpayroll.report_paysummary"
+            />
+		
+		<report 
+            id="action_report_payregistersummary"
+            model="report.employee.payroll"
+            string="Payroll Register Summary"
+            report_type="qweb-html"
+            name="dincelpayroll.report_payregistersummary"
+            file="dincelpayroll.report_payregistersummary"
+            />
+	 
+		<report 
+            id="action_report_opening_balance"
+            model="report.employee.payroll"
+            string="Opening Balance"
+            report_type="qweb-html"
+            name="dincelpayroll.report_opening_balance"
+            file="dincelpayroll.report_opening_balance"
+            />
+			
+			
+        <report 
+            id="action_report_leavebalance"
+            model="report.employee.leavebalance"
+            string="Leave Balance"
+            report_type="qweb-html"
+            name="dincelpayroll.report_leavebalance"
+            file="dincelpayroll.report_leavebalance"
+            />
+		
+		<report 
+            id="action_report_leavesummary"
+            model="report.employee.leavebalance"
+            string="Leave Summary"
+            report_type="qweb-html"
+            name="dincelpayroll.report_leavesummary"
+            file="dincelpayroll.report_leavesummary"
+            />
+			
+		<report 
+            id="action_report_leavesummary_all"
+            model="report.employee.leavebalance"
+            string="Leave Summary All"
+            report_type="qweb-html"
+            name="dincelpayroll.report_leavesummary_all"
+            file="dincelpayroll.report_leavesummary_all"
+            />	
+			
+		<report 
+            id="action_report_leavedetails"
+            model="report.employee.leavebalance"
+            string="Leave Details"
+            report_type="qweb-html"
+            name="dincelpayroll.report_leavedetails"
+            file="dincelpayroll.report_leavedetails"
+            />
+			
+		<report 
+            id="action_report_defaultpage"
+            model="report.employee.leavebalance"
+            string="Payroll Reports"
+            report_type="qweb-html"
+            name="dincelpayroll.report_defaultpage"
+            file="dincelpayroll.report_defaultpage"
+            />
+			
+		<report 
+            id="action_report_pagepayslip"
+            model="report.employee.leavebalance"
+            string="Payroll Payslip"
+            report_type="qweb-html"
+            name="dincelpayroll.report_pagepayslip"
+            file="dincelpayroll.report_pagepayslip"
+            />
+		
+		<report 
+            id="action_report_payslip_all"
+            model="report.employee.payroll"
+            string="Payroll Payslip All"
+            report_type="qweb-html"
+            name="dincelpayroll.report_payslip_all"
+            file="dincelpayroll.report_payslip_all"
+            />
+			
+			
+		<report 
+            id="action_report_payslip_all_pdf"
+            model="report.employee.payroll"
+            string="Payroll Payslip All Pdf"
+            report_type="qweb-pdf"
+            name="dincelpayroll.report_payslip_all"
+            file="dincelpayroll.report_payslip_all"
+            />
+ 
+		
+		
+			
+		<report 
+            id="action_report_pagepayslip_pdf"
+            model="report.employee.leavebalance"
+            report_type="qweb-pdf"
+            string="Payslip Pdf"
+            name="dincelpayroll.report_pagepayslip"
+            file="dincelpayroll.report_pagepayslip"
+        />
+		
+		
+		<report 
+            id="action_report_payg_summary"
+            model="report.employee.payroll"
+            string="PAYG Summary"
+            report_type="qweb-html"
+            name="dincelpayroll.report_payg_summary"
+            file="dincelpayroll.report_payg_summary"
+            />
+			
+		<report 
+            id="action_employee_details"
+            model="report.employee.payroll"
+            string="Employee Details"
+            report_type="qweb-html"
+            name="dincelpayroll.report_employee_details"
+            file="dincelpayroll.report_employee_details"
+            />
+			
+			
+		<report 
+            id="action_payg_summary_annual"
+            model="report.employee.payroll"
+            string="Payment Summary Report"
+            report_type="qweb-html"
+            name="dincelpayroll.report_payg_summary_annual"
+            file="dincelpayroll.report_payg_summary_annual"
+            />
+				
+			
+		<report 
+            id="action_report_paysuper_summary"
+            model="report.employee.payroll"
+            string="Payroll Super Summary"
+            report_type="qweb-html"
+            name="dincelpayroll.report_paysuper_summary"
+            file="dincelpayroll.report_paysuper_summary"
+            />	
+			
+    </data>
+</odoo>

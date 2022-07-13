@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="dincelpayroll_timesheet_import_copy_tree">
+		<field name="name">Timesheet Import Copy</field>
+		<field name="model">hr.timesheet.import.copy</field>
+		<field name="arch" type="xml">
+			<tree  decoration-success="state=='done'"  decoration-primary="state=='confirm'"  decoration-danger="(hours_variance==True) and (authorise_variance==False)">
+				<field name="name" options='{"fg_color": "red:hours_variance==True and authorise_variance==False;"}'/>
+				<field name="employee_id" invisible="1" />
+				<field name="x_emp_number" options='{"fg_color": "red:hours_variance==True and authorise_variance==False;"}' />
+				<field name="x_first_name" />
+				<field name="x_last_name" />
+				<field name="x_group_id" />  
+				<field name="date" />
+				<field name="date_from" />
+				<field name="date_to" />
+				<field name="user_id"/>
+			   
+				<field name="hours_variance" />
+				<field name="authorise_variance" invisible="1"/>
+				
+				 
+				<field name="state" options='{"fg_color": "red:hours_variance==True and authorise_variance==False;"}'/>
+			</tree>
+		</field>
+	</record>
+	
+	
+	<record id="dincelpayroll_timesheet_import_copy_filter" model="ir.ui.view">
+		<field name="name">Timesheet Import</field>
+		<field name="model">hr.timesheet.import.copy</field>
+		<field name="arch" type="xml">
+			<search>
+				
+				<field name="x_emp_number" />
+				<field name="x_first_name" />
+				<field name="x_last_name" /> 
+				<field name="x_group_id" />  
+				<field name="name"/>
+				<separator/>
+				
+				 
+			  
+				<group expand="0" string="Group By">
+					<filter string="Employee"   domain="[]" help="Employee" context="{'group_by':'employee_id'}" />
+					<filter string="Employee Group"   domain="[]" help="Employee Group" context="{'group_by':'x_group_id'}" />
+					 
+			 
+				</group>
+			</search>
+		</field>
+	</record>
+	
+	 <record model="ir.ui.view" id="dincelpayroll_timesheet_import_copy_form">
+		<field name="name">Timesheet Import Copy Form</field>
+		<field name="model">hr.timesheet.import.copy</field>
+		<field name="arch" type="xml">
+			<form create="false">
+			 <header>
+				<button name="button_leave_balance" string="Preview Leave Balance"   type="object" />
+				<button name="button_date_range" string="Timesheet Reset"   type="object" />
+				<button name="button_update_rounding" string="Update Rounding &amp; Hrs" invisible="1"   type="object" />
+				<button name="button_update_paidhrs" class="oe_highlight" string="Refresh/Re-Calc"  type="object" />
+				<button name="button_save_into_summary" string="Update Summary"   type="object" />
+				<button name="button_date_inout_fix" string="Date In/Out"  invisible="1"   type="object" />
+				<button name="button_draft_timesheet" string="Mark as Draft"  states="confirm"  confirm="Are you sure to mark as Draft?"  groups="hr.timesheet_confirm_user"  type="object" />
+				<button name="button_confirm_timesheet" string="Approve"  states="draft" confirm="Are you sure to Approve?"  groups="hr.timesheet_confirm_user" type="object" />
+				<field name="state" widget="statusbar" />
+			</header>
+				 					 
+				
+					
+				 <group>
+					
+					  <group>
+					  <div class="oe_title">
+                        <h1><field name="employee_id"  readonly="1" />&#x2063; <field name="x_emp_number"  readonly="1" /></h1>
+                    </div>
+					
+						<field name="name" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date_from" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="date_to" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						
+						<!-- <field name="employee_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>  -->
+						<field name="x_group_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						
+						<field name="user_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+						<field name="hours_variance" invisible="1"/>
+						<field name="authorise_variance" invisible="1" groups="hr_payroll.group_hr_payroll_manager" attrs="{'invisible': [('hours_variance','=',False)]}"/>
+						
+						<field name="offset_hrs" invisible="1"/>
+						<field name="payslip_ref" readonly="1" />
+						<field name="auto_calc_lock" invisible="1" groups="hr_payroll.group_hr_payroll_manager"/>
+						<br /> 
+						
+						<br />
+						<br />
+					
+					
+						<br />
+						<br />
+						
+						<span colspan="2" attrs="{'invisible': [('hours_variance','=',False)]}">
+						<span colspan="2" style="color:red; border:1px solid red; padding:10px;" attrs="{'invisible': [('authorise_variance','=',True)]}">Unbalanced Hours Found!</span></span>
+					 </group>
+					  <group string="Summary">
+						<field name="summary_ids" nolabel="1"   open="false" context="{'default_employee_id': employee_id}"> 
+								 <tree open="false" editable="bottom" >
+									<field name="employee_id" invisible="1" />
+									<field name="name" invisible="1" readonly="1"/>
+									
+									<field name="category_id" readonly="1"/>
+									<field name="hrs" />
+									<field name="factor_type" invisible="1"/>
+									<field name="xfactor" invisible="1"/>
+									<field name="hrs_net" sum="Total" readonly="1" invisible="1"/>
+								   
+									
+								</tree>
+								 </field>
+								 <br />
+								 
+								 <div class="oe_title oe_right"><h2>Total paid hours:<label for="total_hrs" string=""/>
+								 <field name="total_hrs" colspan="2" readonly="1"/> </h2></div>
+					 </group>
+					  </group>
+					  
+						<notebook>
+						
+							<page string="Days">
+							  <group colspan="2">
+							  
+								<field name="day_ids" nolabel="1"  open="false" context="{'default_employee_id': employee_id}" attrs="{'readonly': [('state','not in',['draft'])]}"> 
+								 <tree editable="bottom" >
+									 <field name="is_miss_hours" readonly="1" />
+									<field name="employee_id" invisible="1" />
+									<field name="name" string="Day" readonly="1" options='{"fg_color": "red:is_miss_hours==True;"}'/>
+									<field name="date" readonly="1" options='{"fg_color": "red:is_miss_hours==True;"}'/>
+									<field name="roster_from"  readonly="1"/>
+									<field name="roster_to" string="Out" readonly="1"/>
+									<field name="actual_from" readonly="1" options='{"bg_color":"lightgrey;"}'/>
+									<field name="actual_to" string="Out" readonly="1" options='{"bg_color":"lightgrey;"}'/>
+									
+									<field name="daydtls_ids" invisible="1" options='{"fg_color":"red:is_miss_hours==True;"}'/>
+									
+									 
+									<field name="paid_from" options='{"bg_color":"cyan;"}' />
+									<field name="paid_to" string="Out" options='{"bg_color":"cyan;"}'/>
+
+									<field name="leave_id" />
+									<button name="button_update_hours" string="..." type="object"/>
+									<field name="hrs_paid"  string="Tot.Hrs (In/Out)"/>
+									<field name="hrs_paid_read" string="HrsR"  invisible="1" readonly="1" sum="Tot Paid" />
+									<field name="leave_hrs" sum="Total Leave Hrs"/>
+									<field name="hrs_unpaid" sum="Tot Unpaid"   /> 
+									
+									<field name="hrs_roster" invisible="1"/>
+									
+									
+									
+									
+									
+									
+									<field name="hrs_breaks_paid" readonly="1" sum="Br Paid"  />
+									<field name="hrs_breaks_unpaid" readonly="1" sum="Br Unpaid" />
+									
+									<field name="hrs_tot_paid" sum="SubTot Paid" invisible="1"/>
+									<field name="hrs_tot_unpaid" sum="SubTot Unpaid" invisible="1"/>
+									
+									<field name="hrs_total" readonly="1" sum="Total" options='{"fg_color":"red:is_miss_hours==True;"}'/>
+									<field name="msg_code" readonly="1"/>
+									
+								</tree>
+								
+								<form>
+								
+									<group>
+										<group>
+									 
+											<field name="name" readonly="1"/>
+											<field name="date"  readonly="1"/>
+											<field name="paid_from" invisible="1" />
+											<field name="paid_to" invisible="1"/>
+											<field name="roster_from" readonly="1"/>
+											<field name="roster_to" readonly="1"/>
+										</group>
+										<group>
+											<field name="actual_from" invisible="1"/>
+											<field name="actual_to" invisible="1"/>
+											<field name="breaks" invisible="1"/>
+										 
+											<field name="hrs_total"  />
+											 
+										</group>
+									</group>
+									
+									<group>
+										<div colspan="2">In/Out  </div>
+										<field name="daydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+										 <tree open="false" editable="bottom" >
+											<field name="sequence" widget="handle"/>
+											<field name="date" />
+											<field name="in_out" />
+											<field name="time" readonly="1" />
+											
+											<field name="time_adjust" />
+											
+											<field name="category_id" invisible="1" />
+										 </tree>
+										 </field>
+										<div colspan="2">Pay Details</div>
+										<field name="paydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+										 <tree open="false" editable="bottom" context="{'default_employee_id': employee_id}">
+											<field name="employee_id" invisible="1" /> 
+											<field name="sequence" widget="handle"/>
+											<field name="category_id" />
+											<field name="holiday_id" domain="[('employee_id','=',employee_id),('x_redeem','in',['part','none'])]"  context="{'default_employee_id': employee_id}"/>
+											<field name="hours" sum="Total"/>
+										 </tree>
+										 </field>
+									</group>
+								</form>				
+								 </field>
+								 
+						 
+							 
+							 </group>
+							 </page>
+							 
+							 
+						<page string="Timesheets" invisible="1">
+							  <group colspan="2">
+							  
+								<field name="line_ids" nolabel="1"  open="false" context="{'default_employee_id': employee_id}"> 
+								 <tree open="false" editable="bottom" >
+									<field name="sequence" widget='handle'/>
+									<field name="employee_id" invisible="1" />
+									<field name="name" />
+									<field name="date" />
+									<field name="category_id" />
+									<field name="hrs"/>
+									<field name="factor_type" />
+									<field name="xfactor"/>
+									<field name="hrs_net" sum="Total" invisible="1" />
+								   
+									<field name="locked" invisible="1"/>
+								</tree>
+								 </field>
+								 
+						 
+							 
+							 </group>
+							 </page>
+							 <page string="Leaves">
+								  <group colspan="2">
+								  
+									<field name="leave_ids" nolabel="1" open="false"  context="{'default_employee_id': employee_id}"> 
+										<tree >
+											<field name="category_id"   />
+											<field name="holiday_status_id"  invisible="1" />
+											<field name="holiday_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+											<field name="employee_id" invisible="1" />
+											<field name="date_from"  />
+											<field name="date_to"  />
+											
+											<field name="date" invisible="1" />
+											
+											<field name="tot_hrs" sum="Tot Hours" />
+										</tree>
+										<form >
+											<group>
+												<group>
+													<field name="holiday_id" required="1" domain="[('employee_id','=',parent.employee_id),('x_date_from','&lt;=',parent.date_to),('x_date_from','&gt;=',parent.date_from)]"  context="{'default_employee_id': parent.employee_id}"/>
+													<field name="employee_id" invisible="1"  context="{'default_employee_id': parent.employee_id}"/>
+													<field name="date_from"/>
+													<field name="date_to"  />
+													
+													<field name="date" invisible="1"/>
+													
+												</group>
+												<group>
+												
+													<field name="category_id"  invisible="1"  />
+													<field name="tot_hrs" invisible="1"/>
+													
+												 
+												</group>
+											</group>
+											<group>
+												<field name="leave_days"> 
+													<tree editable="bottom" >
+														<field name="date" invisible="1"   />
+														<field name="name"   />
+														<field name="is_leave" />
+														<field name="hours" sum="Total Hours"  />
+													</tree>	
+												</field>
+											</group>
+										</form>
+									 </field>
+									 
+							 
+								 
+								 </group>
+								 </page>
+						</notebook>
+						
+						
+				 
+				  
+				   <div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers"/>
+							
+							<field name="message_ids" widget="mail_thread"/>
+						</div>
+			</form>
+		</field>
+	</record>
+	
+		
+
+	
+		
+	<record id="dincel_payroll_timesheet_tree_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.account.analytic.line.tree</field>
+        <field name="model">account.analytic.line</field>
+        <field name="arch" type="xml">
+            <tree >
+					<field name="date"/>
+                    <field name="name"/>
+					<field name="employee_id" />
+					<field name="user_id" invisible="1"/>
+                    <field name="project_id"  />
+                    <field name="unit_amount" string="Time (Hours)" sum="Total time" widget="float_time"/>
+            </tree>
+        </field>
+    </record>
+	
+	<record id="dincelpayroll_timesheet_import_copydays_form_view" model="ir.ui.view">
+		<field name="name">dincelpayroll.timesheet.import.copydays.form</field>
+		<field name="model">hr.timesheet.import.copydays</field>
+		<field name="arch" type="xml">
+
+		<form>
+								
+					<group>
+						<group>
+					 
+							<field name="name" readonly="1"/>
+							<field name="date"  readonly="1"/>
+							<field name="paid_from" invisible="1" />
+							<field name="paid_to" invisible="1"/>
+							<field name="roster_from" readonly="1"/>
+							<field name="roster_to" readonly="1"/>
+						</group>
+						<group>
+							<field name="actual_from" invisible="1"/>
+							<field name="actual_to" invisible="1"/>
+							<field name="breaks" invisible="1"/>
+						 
+							<field name="hrs_total"  />
+							 
+						</group>
+					</group>
+					
+					<group>
+						<div colspan="2">In/Out  </div>
+						<field name="daydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+						 <tree open="false" editable="bottom" >
+							<field name="sequence" widget="handle"/>
+							<field name="date" />
+							<field name="in_out" />
+							<field name="time" readonly="1" />
+							
+							<field name="time_adjust" />
+							
+							<field name="category_id" invisible="1" />
+						 </tree>
+						 </field>
+						<div colspan="2">Pay Details</div>
+						<field name="paydtls_ids" colspan="2" context="{'default_date': date}" nolabel="1">
+						 <tree open="false" editable="bottom" context="{'default_employee_id': employee_id}">
+							<field name="employee_id" invisible="1" /> 
+							<field name="sequence" widget="handle"/>
+							<field name="category_id" />
+							<field name="holiday_id" domain="[('employee_id','=',employee_id),('x_redeem','in',['part','none'])]"  context="{'default_employee_id': employee_id}"/>
+							<field name="hours" sum="Total"/>
+						 </tree>
+						 </field>
+					</group>
+				</form>				
+		</field>
+	</record>	
+	
+		
+	<record id="dincelpayroll_employee_inherit_view_form" model="ir.ui.view">
+        <field name="name">dincelpayroll.account.analytic.line.form.inherit</field>
+       <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+        <field name="arch" type="xml">
+			<field name="account_id" position="after"> 
+				<field name="employee_id" />
+				<field name="user_id" invisible="1"/>
+			</field>
+		 </field>
+    </record>
+	
+ 	<record id="dincelpayroll_payslip_batch_form_view" model="ir.ui.view">
+        <field name="name">dincelpayroll.payslip.batch.form</field>
+		<field name="model">hr.payslip.run</field>
+		<field name="arch" type="xml">
+
+		<form string="Payslips Batches">
+				<header>
+					<button name="close_payslip_run" type="object" string="Close" states="draft" class="oe_highlight"/>
+					<button name="323" type="action" states="draft" string="Generate Payslips" class="oe_highlight"/>
+					<button string="Set to Draft" name="draft_payslip_run" type="object" states="close"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+            <sheet>
+                <label for="name" class="oe_edit_only"/>
+                <h1>
+                    <field name="name"/>
+                </h1>
+                <group col="4">
+                    <label for="date_start" string="Period"/>
+                     <div>
+                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
+                     </div>
+                    <field name="credit_note" invisible="1"/>
+					<field name="x_type" required="1"/>
+					<field name="x_date" required="1"/>
+                </group>
+                <separator string="Payslips"/>
+                <field name="slip_ids"/>
+            </sheet>
+            </form>
+		 </field>
+    </record>	
+	
+	
+	<record id="hr_timesheet_line_inherit_form" model="ir.ui.view">
+        <field name="name">hr.employee.timesheet.form.inherit.hr</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+			<field name="unit_amount" position="after"> 
+				<field name="account_id" />
+				<field name="x_act_start" />
+				<field name="x_act_stop" />
+				<field name="x_round_start" />
+				<field name="x_round_stop" />
+				<field name="x_break_paid" />
+				<field name="x_hrs_normal" />
+				<field name="x_break_unpaid" />
+				<field name="x_loading_noon" />
+				<field name="x_loading_night" />
+			</field>
+		 </field>
+    </record>
+	
+	<record id="hr_timesheet_batch_form" model="ir.ui.view">
+		<field name="name">hr.employee.timesheet.batch.form</field>
+		<field name="model">hr.timesheet.batch</field>
+		<field name="arch" type="xml">
+		<form >
+			  <header><button name="action_import_wizard" type="object" string="New Import" class="btn-primary"/>
+			  <button name="action_confirm_timesheet" type="object" string="Confirm" class="btn-primary"/>
+			  <field name="state"  widget="statusbar"/>
+				</header>
+			<group>
+			  <group>
+					
+					<field name="employee_id"/>
+					<field name="name" />
+					<field name="date" />
+					
+					  </group>
+					  <group>
+					<field name="date_start" />
+					<field name="date_end" />
+					<field name="csv_dcs" readonly="1"/>
+					  </group>
+				</group>
+				
+				<group attrs="{'invisible': [('csv_dcs','=', True)]}">
+				
+				 
+					
+				</group>
+				<group attrs="{'invisible': [('csv_dcs','=', False)]}">
+					
+					 
+				</group>
+			 <group>
+				<field name="description" />
+			 </group>
+			 
+			  <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+			</form >
+		 </field>
+	</record>
+	
+	<record id="action_dincelpayroll_import_timesheet_new" model="ir.actions.act_window">
+		<field name="name">Import Timesheet</field>
+		<field name="res_model">hr.timesheet.import</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	
+	<record id="action_dincelpayroll_analytic_timesheet" model="ir.actions.act_window">
+		<field name="name">Timesheet Batch</field>
+		<field name="res_model">account.analytic.line</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>	
+		
+	<record model="ir.actions.act_window.view" id="action_payroll_timesheet_analyticl_tree">
+		<field name="sequence" eval="1"/>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="dincel_payroll_timesheet_tree_view"/>
+		<field name="act_window_id" ref="action_dincelpayroll_analytic_timesheet"/>
+   </record>
+   
+   <record model="ir.actions.act_window.view" id="action_payroll_timesheet_analytic_form">
+		<field eval="2" name="sequence"/>
+		<field name="view_mode">form</field>
+
+		<field name="act_window_id" ref="action_dincelpayroll_analytic_timesheet"/>
+	</record>
+		
+		
+		
+		
+	<record id="action_dincelpayroll_payslip_batch" model="ir.actions.act_window">
+		<field name="name">Payslip Batch</field>
+		<field name="res_model">hr.payslip.run</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>	
+		
+	<record model="ir.actions.act_window.view" id="action_payroll_payslip_batch_tree">
+		<field name="sequence" eval="1"/>
+		<field name="view_mode">tree</field>
+		
+		<field name="act_window_id" ref="action_dincelpayroll_payslip_batch"/>
+   </record>
+   
+   <record model="ir.actions.act_window.view" id="action_payroll_payslip_batch_form">
+		<field eval="2" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="dincelpayroll_payslip_batch_form_view"/>
+		<field name="act_window_id" ref="action_dincelpayroll_payslip_batch"/>
+	</record>
+	 
+	<record id="action_dincelpayroll_currpayslip_employee" model="ir.actions.act_window">
+	 <field name="name">Active Autopay Payslips</field>
+		<field name="res_model">hr.payslip</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state', '!=', 'done'),('x_is_timesheet','=',False)]</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_currpayslip_ts_employee" model="ir.actions.act_window">
+		 <field name="name">Active Timesheet Payslips</field>
+		<field name="res_model">hr.payslip</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state', '!=', 'done'),('x_is_timesheet','=',True)]</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_emailque_payslips" model="ir.actions.act_window">
+		<field name="name">Payslips Email Queue</field>
+		<field name="res_model">hr.payslip</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('x_email_que', '=', True),('x_emailed', '=', False)]</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_auto_payrun" model="ir.actions.act_window">
+		<field name="name">Autopay Payrun Wizard</field>
+		<field name="res_model">hr.payroll.generate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_is_termination': False, 'default_individual': False,'default_payslip_create_type':'autopay'}</field>
+	</record>	
+	<record id="action_dincelpayroll_timesheet_payrun" model="ir.actions.act_window">
+		<field name="name">Timesheet Payrun Wizard</field>
+		<field name="res_model">hr.payroll.generate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_is_termination': False, 'default_individual': False,'default_payslip_create_type':'timesheet'}</field>
+	</record>	
+	<record id="action_dincelpayroll_casual_payrun" model="ir.actions.act_window">
+		<field name="name">Casual Payrun Wizard</field>
+		<field name="res_model">hr.payroll.generate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_is_termination': False, 'default_individual': '1','default_payslip_create_type':'manual'}</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_termination_all" model="ir.actions.act_window">
+	 <field name="name">All Termination Pay</field>
+		<field name="res_model">hr.payslip</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('x_termination_pay','=',True)]</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_termination_employee" model="ir.actions.act_window">
+		<field name="name">Termination Pay</field>
+		<field name="res_model">hr.payroll.generate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_is_termination': True, 'default_individual': True,'default_payslip_create_type':'terminate'}</field>
+	</record>	
+	
+	
+	<record id="action_dincelpayroll_copy_import_timesheet" model="ir.actions.act_window">
+		<field name="name">Import Timesheet</field>
+		<field name="res_model">hr.payroll.generate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="context">{'default_ts_import_only': True,'default_payslip_create_type':'timesheet','default_upload_new':True}</field>
+	</record>	
+	
+	<record id="action_dincelpayroll_allpayslip_employee" model="ir.actions.act_window">
+		<field name="name">All Payslips</field>
+		<field name="res_model">hr.payslip</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="search_view_id" ref="view_dincelpayroll_payslip_filter"/>
+	</record>	
+		
+	<record model="ir.actions.act_window.view" id="action_payroll_allpayslip_employee_tree">
+		<field name="sequence" eval="1"/>
+		<field name="view_mode">tree</field>
+		
+		<field name="act_window_id" ref="action_dincelpayroll_allpayslip_employee"/>
+   </record>
+   
+   <record model="ir.actions.act_window.view" id="action_payroll_allpayslip_employee_form">
+		<field eval="2" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="dincelpayroll_payslip_employee_form_view"/>
+		<field name="act_window_id" ref="action_dincelpayroll_allpayslip_employee"/>
+	</record>
+	
+
+	 <record id="action_dincelpayroll_copy1_timesheet" model="ir.actions.act_window">
+		<field name="name">Active Timesheets</field>
+		<field name="res_model">hr.timesheet.import.copy</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state', '=', 'draft')]</field>
+	</record>	
+	 <record model="ir.actions.act_window.view" id="action_dincelpayroll_copy1_timesheet_tree">
+		<field eval="1" name="sequence"/>
+		<field name="view_mode">tree</field>
+		
+		<field name="act_window_id" ref="action_dincelpayroll_copy1_timesheet"/>
+	</record>
+	
+	
+   <record model="ir.actions.act_window.view" id="action_dincelpayroll_copy1_timesheet_form">
+		<field eval="2" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="dincelpayroll_timesheet_import_copy_form"/>
+		<field name="act_window_id" ref="action_dincelpayroll_copy1_timesheet"/>
+	</record>
+	
+	
+	 <record id="action_dincelpayroll_done_copy_timesheet" model="ir.actions.act_window">
+		<field name="name">Converted Timesheets</field>
+		<field name="res_model">hr.timesheet.import.copy</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state', '=', 'done')]</field>
+	</record>	
+	
+	 <record id="action_dincelpayroll_all_copy_timesheet" model="ir.actions.act_window">
+		<field name="name">All Timesheets</field>
+		<field name="res_model">hr.timesheet.import.copy</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		
+	</record>	
+	
+	 <record id="action_dincelpayroll_confirm_copy_timesheet" model="ir.actions.act_window">
+		<field name="name">Approved Timesheets</field>
+		<field name="res_model">hr.timesheet.import.copy</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state', '=', 'confirm')]</field>
+	</record>
+	
+	<menuitem id="mymenu_timesheet_copy_timesheet"
+		name="Active Timesheets"
+		parent="dincelemployee.dincelmenu_mymenu_sub"
+		 action="action_dincelpayroll_copy1_timesheet"
+		sequence="1"
+	   />
+	
+	   
+	<menuitem id="mymenu_timesheet_copy_all_timesheet"
+		name="All Timesheets"
+		parent="dincelemployee.dincelmenu_mymenu_sub"
+		 action="action_dincelpayroll_all_copy_timesheet"
+		sequence="2"
+	   />
+	   
+	   
+	   
+</odoo>

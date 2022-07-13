@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_payregistersummary_document"> 
+	<t t-call="web.external_layout"> 
+		<div class="page">
+			<h3>
+				<span><t if="employee"><span t-esc="report_title" /></t></span>
+			</h3>
+			 
+			<h4>
+				Date: <t if="date_from"><span t-esc="date_from" t-field-options='{"format": "dd/MM/yyyy"}'/></t> - <t if="date_till"><span t-esc="date_till" t-field-options='{"format": "dd/MM/yyyy"}'/></t>
+			</h4>
+			
+			<table border="1" class="table table-condensed">
+				 <thead>
+				 
+                        <tr class="text-center">
+							
+							<th class="text-center">Employee     </th>
+							<th class="text-center">Wages</th>
+							<th class="text-center">Deductions</th>
+							
+							<th class="text-center">Taxes</th>
+							<th class="text-center">Net Pay</th>
+							<th class="text-center">Expenses</th>
+							
+							
+						 </tr>
+                    </thead>
+                    <tbody>
+					
+				    <t t-foreach="lines" t-as="line">
+						<tr> 
+							<td><span t-esc="line['emp_name']" /></td>
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['gross_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['deduct_amt'])"/></td> 
+
+							<td class="text-right"><span t-esc="'{0:,.0f}'.format(line['tax_amt'])"/></td> 
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['net_amt'])"/></td>  
+							<td class="text-right"><span t-esc="'{0:,.2f}'.format(line['expense_amt'])"/></td>  
+							
+							
+						</tr>
+					  </t>
+					  <tr> 
+							<th>TOTAL</th>
+							<th class="text-right"><span t-esc="'{0:,.2f}'.format(summary['gross_amt'])"/></th> 
+							<th class="text-right"><span t-esc="'{0:,.2f}'.format(summary['deduct_amt'])"/></th> 
+							
+							<th class="text-right"><span t-esc="'{0:,.0f}'.format(summary['tax_amt'])"/></th> 
+							<th class="text-right"><span t-esc="'{0:,.2f}'.format(summary['net_amt'])"/></th>  
+							<th class="text-right"><span t-esc="'{0:,.2f}'.format(summary['expense_amt'])"/></th>  
+							
+							
+						</tr>
+				  
+					</tbody>
+					
+                </table>
+				
+			</div>
+		 </t>
+	 
+</template>
+
+
+<template id="report_payregistersummary">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="dincelpayroll.report_payregistersummary_document" />
+        </t>
+    </t>
+</template>
+ 
+</odoo>

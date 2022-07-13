@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<odoo>
+
+		<record id="wizard_payroll_aga_generate_form" model="ir.ui.view">
+            <field name="name">wizard.payroll.aba.generate.form</field>
+            <field name="model">hr.payroll.aba</field>
+            <field name="arch" type="xml">
+                <form >
+                    
+                      <group>
+               
+						 <field name="check_all" invisible="1" nolabel="1" colspan="2"/>
+						 <field nolabel="1" name="employee_lines" >
+							 <tree editable="bottom" create="0">
+								<field name="selected" />
+								<field name="employee_id" />
+								<field name="date" />
+								<field name="net_amt" />
+								<field name="number" />
+								<field name="payslip_id" />
+							 </tree>
+							 
+						 </field>
+					 </group>
+                    <footer>    
+						<field name="qty" invisible="1" />
+                        <button name="button_payslip_aba_create" invisible="1" type="object"  string="Continue"/>
+						<button name="button_payslip_aba_create_new" type="object"  string="Generate ABA"/>
+						
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+		
+	
+		
+		<record id="action_view_aba_generate_payroll" model="ir.actions.act_window">
+			<field name="name">Generate and Download ABA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.payroll.aba</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="binding_model_id" ref="hr_payroll.model_hr_payslip" />
+		</record>
+ 
+		 
+ 
+		
+</odoo>
+	
